@@ -174,7 +174,7 @@ export const landingContent = {
   bodies: {
     heading: "Carrocerías disponibles",
     body:
-      "Compara las cinco carrocerías Mercedes-Benz disponibles y cotiza la tuya.",
+      "Estas son las cinco carrocerías Mercedes-Benz que puedes cotizar con Mariana.",
     items: site.product.bodyStyles,
   },
   seats: {

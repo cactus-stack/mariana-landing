@@ -14,6 +14,7 @@ export const photos = {
   usoPersonal: "/images/uso-personal.webp",
   usoEscolar: "/images/uso-escolar.webp",
   usoTurismo: "/images/uso-turismo.webp",
+  unidadAycoZafiroGt: "/images/unidad-ayco-zafiro-gt.webp",
   unidadAycoCosmopolitan: "/images/unidad-ayco-cosmopolitan.webp",
   unidadBeccar: "/images/unidad-beccar.webp",
   unidadUrviabusMt: "/images/unidad-urviabus-mt.webp",
@@ -30,19 +31,19 @@ export const photos = {
 const useMedia: Record<string, { image: string; alt: string }> = {
   urbano: {
     image: photos.usoUrbano,
-    alt: "Autobús Mercedes-Benz en circulación para transporte urbano.",
+    alt: "Autobús urbano morado de Corredor 25 con carrocería Toreto, completo y de tres cuartos.",
   },
   personal: {
     image: photos.usoPersonal,
-    alt: "Autobús Mercedes-Benz utilizado para transporte de personal.",
+    alt: "Autobús Marcopolo Torino morado, completo, visto de tres cuartos trasero.",
   },
   escolar: {
     image: photos.usoEscolar,
-    alt: "Autobús Mercedes-Benz utilizado para transporte escolar.",
+    alt: "Autobús Mercedes-Benz AYCO azul, completo, visto de tres cuartos trasero.",
   },
   turismo: {
     image: photos.usoTurismo,
-    alt: "Autobús Mercedes-Benz utilizado para turismo.",
+    alt: "Autobús Beccar Urviabus MT blanco de parabrisas panorámico, completo, vista lateral.",
   },
 };
 
@@ -62,6 +63,12 @@ export const uses: readonly {
 // exactly the failure this section exists to avoid. The five bodyworks the
 // client actually sells are listed as text from site.product.bodyStyles.
 export const bodyworks = [
+  {
+    name: "Ayco Zafiro GT",
+    blurb: "Carrocería Ayco Zafiro GT para transporte urbano, sobre chasis Mercedes-Benz.",
+    image: photos.unidadAycoZafiroGt,
+    alt: "Autobús urbano blanco con carrocería Ayco Zafiro GT, completo y de tres cuartos frontal.",
+  },
   {
     name: "Ayco Cosmopolitan",
     blurb: "Unidad blanca de piso alto, con puerta de servicio y escalones de contraste.",

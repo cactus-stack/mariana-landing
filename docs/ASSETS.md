@@ -14,6 +14,7 @@ Selección para la landing de Mariana Barrera / Zapata Camiones. Contrato final:
 2. El cliente decidió no usar ese enfoque (en una landing de venta, forzar una carrocería específica por foto se lee como stock si no se puede verificar). Se reemplazó por: los 5 nombres de carrocería como **texto**, más una **galería de 6-8 fotos de unidades reales** nombradas por lo que se lee en la foto (`unidad-*.webp`).
 3. De los 5 archivos `carroceria-*.webp` originales, el contenido de Beccar y Marcopolo se conservó (solo cambiaron de nombre). Ayco Cosmopolitan y Urviabus se sumaron a la galería. Ayco Zafiro (ver hallazgo abajo) se resolvió con la unidad Sigma OF como `unidad-ayco-sigma-of.webp`, sin afirmar que es "Zafiro".
 4. Se agregó `retrato-mariana.webp` para la sección de perfil (no estaba en ningún contrato anterior; ver nota de procedencia abajo).
+5. `uso-escolar.webp` y `uso-turismo.webp` se rehicieron: la primera versión usaba la misma unidad Toreto morada que `uso-urbano.webp` y `uso-personal.webp` (Marcopolo, también morado), lo que hacía ver la flota como un solo color. Ahora usan AYCO Sigma OF azul (escolar) y Beccar Urviabus MT blanco tipo coach (turismo), cada uno en un ángulo distinto al ya usado en la galería.
 
 ## Identificación de carrocerías
 
@@ -46,8 +47,8 @@ hero-1600.webp | "AYCO" en parrilla + "Cosmopolitan" en costado | Autobús Merce
 hero-800.webp | mismo original que hero-1600 | Mismo autobús, versión ligera para pantallas pequeñas.
 uso-urbano.webp | "TORETO" + "CORREDOR 25" | Autobús urbano morado de Corredor 25 (carrocería Toreto), completo, de tres cuartos, puerta abierta.
 uso-personal.webp | "Torino" (Marcopolo, misma unidad que unidad-marcopolo-torino, ángulo trasero) | Autobús Marcopolo Torino morado, de tres cuartos trasero, completo, frente a Zapata Aeropuerto.
-uso-escolar.webp | "TORETO" (misma familia que uso-urbano, unidad/ángulo distinto) | Autobús urbano morado Toreto, completo, de tres cuartos frontal, puerta abierta, patio con barda de block.
-uso-turismo.webp | "TORETO" (misma familia, vista lateral) | Autobús urbano morado Toreto, vista lateral completa, anuncio de Zapata III al fondo.
+uso-escolar.webp | "AYCO" (mismo modelo Sigma OF que unidad-ayco-sigma-of, ángulo trasero distinto) | Autobús Mercedes-Benz AYCO azul, de tres cuartos trasero, completo, patio de nave industrial.
+uso-turismo.webp | "Mercedes-Benz" en placa trasera (misma unidad Urviabus MT que unidad-urviabus-mt, ángulo lateral/trasero distinto) | Autobús Mercedes-Benz Beccar Urviabus MT blanco, tipo coach de parabrisas panorámico, vista lateral/trasera completa, interior de nave industrial.
 unidad-beccar.webp | "BECCAR" en parrilla | Autobús Mercedes-Benz Beccar blanco, completo, de tres cuartos frontal. Placa delantera difuminada por privacidad.
 unidad-marcopolo-torino.webp | "Torino" + "Marcopolo" (ambos legibles) | Autobús Marcopolo Torino morado, completo, de tres cuartos frontal, frente a Zapata Aeropuerto.
 unidad-urviabus-mt.webp | "BECCAR" + "Urviabus MT" | Autobús Mercedes-Benz Beccar Urviabus MT blanco, completo, de tres cuartos frontal, interior de nave industrial.
@@ -75,7 +76,20 @@ Aparecieron ~62 archivos nuevos directamente en `public/` a media sesión (UUID 
 
 ## Verificación final
 
-- `du -sh public/` → 2.4 MB.
+- `du -sh public/` → 2.5 MB.
 - `ls public/` → solo `images`.
 - 19 archivos en `public/images/`: hero x2, uso x4, galería `unidad-*` x7, interior x3, accesibilidad, og.jpg, retrato-mariana. Todos con las dimensiones documentadas arriba (verificado con `magick identify`), EXIF/GPS vacío en todos los que yo generé.
 - `du -sh assets-src/` → 125 MB (73 originales del lote base + ~62 del lote adicional, mayormente duplicados).
+
+## Nota de procedencia: Ayco Zafiro GT
+
+`unidad-ayco-zafiro-gt.webp` es la **única imagen de la galería que no proviene del material fotográfico de la clienta**. La carrocería Zafiro GT no aparece en ninguno de los 135 originales, así que la imagen se tomó de la cobertura de prensa del lanzamiento conjunto de Mercedes-Benz y AYCO (2021). Es una imagen de producto del fabricante, no una unidad fotografiada en el patio de Zapata.
+
+Implicaciones que el equipo debe tener presentes:
+
+- Los derechos pertenecen al fabricante. Lo correcto es sustituirla por el material oficial que Mercedes-Benz o AYCO entregan a sus distribuidores, o por una foto propia de Mariana en cuanto tenga una unidad Zafiro GT en piso.
+- Se procesó con `contain` sobre el fondo del sitio (`#f4f6f7`) para conservar la unidad completa, igual que la imagen Open Graph.
+- El texto alternativo describe solo lo que se ve y no afirma que la unidad esté disponible en inventario.
+
+Las otras cinco imágenes de la galería sí son fotografías reales del material de la clienta, con la carrocería verificada leyendo el emblema en la propia foto.
+
