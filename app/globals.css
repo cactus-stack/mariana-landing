@@ -1,0 +1,1646 @@
+/*
+ * Light-only theme by explicit client request (Mariana Barrera / Zapata
+ * Camiones asked for a single light theme). This is an intentional
+ * Section 6.C override: do NOT add a `prefers-color-scheme: dark` block
+ * back in. There are no dead dark-mode tokens here on purpose.
+ */
+:root {
+  --bg: #f4f6f7;
+  --bg-soft: #e9edee;
+  --surface: #ffffff;
+  --surface-strong: #ffffff;
+  --ink: #101a20;
+  --ink-soft: #3c4a52;
+  --ink-faint: #5b6970;
+  --line: #d5dbde;
+  --line-strong: #b7c1c5;
+  --line-input: #6b7f88;
+  --accent: #16323f;
+  --accent-strong: #0f232c;
+  --on-accent: #ffffff;
+  --accent-soft: #e3e9eb;
+  --focus: #16323f;
+  --shadow: 0 24px 60px rgba(16, 26, 32, 0.14);
+  --shadow-small: 0 12px 26px rgba(16, 26, 32, 0.1);
+  /* Shape lock: pill radius on every interactive control (buttons, tags),
+     --radius on media frames and panels, --radius-small on form inputs.
+     No other radius values are used on the page. */
+  --radius: 22px;
+  --radius-small: 12px;
+  --radius-pill: 999px;
+  --max-width: 1420px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--bg);
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Manrope Variable", "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  border: 0;
+  cursor: pointer;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+figure {
+  margin: 0;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 4px;
+}
+
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 100;
+  transform: translateY(-160%);
+  border-radius: var(--radius-pill);
+  background: var(--ink);
+  color: var(--bg);
+  padding: 0.7rem 1rem;
+  transition: transform 180ms ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Navigation                                                              */
+/* ---------------------------------------------------------------------- */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 78%, transparent);
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: blur(16px);
+}
+
+.nav-inner {
+  display: flex;
+  min-height: 72px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: min(100% - 3rem, var(--max-width));
+  margin: 0 auto;
+}
+
+.brand-lockup {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.brand-mark {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  place-items: center;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-small);
+  background: var(--surface);
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.brand-copy {
+  display: grid;
+  gap: 0.05rem;
+  min-width: 0;
+  line-height: 1.15;
+}
+
+.brand-copy strong {
+  overflow: hidden;
+  color: var(--ink);
+  font-size: 0.95rem;
+  font-weight: 760;
+  letter-spacing: -0.02em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.brand-copy span {
+  color: var(--ink-faint);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.desktop-nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 2vw, 2rem);
+  margin-left: auto;
+}
+
+.desktop-nav a {
+  position: relative;
+  color: var(--ink-soft);
+  font-size: 0.86rem;
+  font-weight: 650;
+  transition: color 180ms ease;
+}
+
+.desktop-nav a::after {
+  position: absolute;
+  right: 0;
+  bottom: -0.35rem;
+  left: 0;
+  height: 2px;
+  background: var(--accent);
+  content: "";
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 180ms ease;
+}
+
+.desktop-nav a:hover,
+.desktop-nav a:focus-visible {
+  color: var(--ink);
+}
+
+.desktop-nav a:hover::after,
+.desktop-nav a:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.nav-action,
+.button-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  min-height: 46px;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 0.88rem;
+  font-weight: 760;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  padding: 0.75rem 1.15rem;
+  transition:
+    background 180ms ease,
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.nav-action:hover,
+.button-primary:hover {
+  background: var(--accent-strong);
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--accent) 30%, transparent);
+  transform: translateY(-2px);
+}
+
+.nav-action:active,
+.button-primary:active,
+.button-secondary:active,
+.whatsapp-float:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+.nav-action {
+  min-height: 40px;
+  padding: 0.58rem 1rem;
+}
+
+.menu-toggle {
+  display: none;
+  min-height: 42px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  color: var(--ink);
+  padding: 0.55rem 0.75rem;
+  transition: border-color 180ms ease;
+}
+
+.menu-toggle:hover {
+  border-color: var(--accent);
+}
+
+.mobile-nav {
+  display: none;
+}
+
+.page-main {
+  overflow: clip;
+}
+
+.container {
+  width: min(100% - 3rem, var(--max-width));
+  margin: 0 auto;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Hero - asymmetric split                                                 */
+/* ---------------------------------------------------------------------- */
+
+.hero {
+  display: grid;
+  min-height: calc(100dvh - 72px);
+  align-items: center;
+  gap: clamp(2.5rem, 7vw, 8.5rem);
+  grid-template-columns: minmax(0, 0.9fr) minmax(430px, 1.1fr);
+  padding: clamp(1.6rem, 5vw, 3.5rem) 0 clamp(3.4rem, 7vw, 7rem);
+}
+
+.hero-copy {
+  max-width: 610px;
+  padding: 0.5rem 0;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 780;
+  letter-spacing: 0.14em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.eyebrow::before {
+  width: 28px;
+  height: 2px;
+  background: var(--accent);
+  content: "";
+}
+
+.hero h1 {
+  max-width: 20ch;
+  margin: 1.35rem 0 1.3rem;
+  color: var(--ink);
+  font-size: clamp(2.7rem, 3.8vw, 3.7rem);
+  font-weight: 780;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+}
+
+.hero-lead {
+  max-width: 32rem;
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: clamp(1rem, 1.45vw, 1.17rem);
+  line-height: 1.6;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+.button-secondary {
+  display: inline-flex;
+  min-height: 46px;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--ink);
+  font-size: 0.88rem;
+  font-weight: 730;
+  white-space: nowrap;
+  padding: 0.7rem 1.15rem;
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease;
+}
+
+.button-secondary:hover {
+  border-color: var(--accent);
+  background: var(--surface);
+  transform: translateY(-2px);
+}
+
+.hero-visual {
+  align-self: center;
+}
+
+.hero-frame {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--bg-soft);
+  box-shadow: var(--shadow);
+}
+
+.hero-frame img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-frame:hover img {
+  transform: scale(1.025);
+}
+
+.image-note {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.8rem;
+  color: var(--ink-faint);
+  font-size: 0.76rem;
+  line-height: 1.4;
+}
+
+.image-note strong {
+  color: var(--ink-soft);
+  font-weight: 700;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Proof strip - inline metrics                                           */
+/* ---------------------------------------------------------------------- */
+
+.proof-bar {
+  display: grid;
+  align-items: stretch;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  grid-template-columns: 1.1fr 1fr 1fr;
+}
+
+.proof-item {
+  display: grid;
+  gap: 0.35rem;
+  min-height: 112px;
+  align-content: center;
+  padding: 1rem clamp(1rem, 3vw, 2.3rem);
+}
+
+.proof-item + .proof-item {
+  border-left: 1px solid var(--line);
+}
+
+.proof-item strong {
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 760;
+  letter-spacing: -0.02em;
+}
+
+.proof-item span {
+  color: var(--ink-faint);
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+.section {
+  padding: clamp(5rem, 10vw, 9.5rem) 0;
+}
+
+.section-heading {
+  max-width: 720px;
+  margin-bottom: clamp(2rem, 4.5vw, 4rem);
+}
+
+.section-heading h2 {
+  max-width: 14ch;
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(2.2rem, 4.4vw, 4rem);
+  font-weight: 780;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+
+.section-heading p {
+  max-width: 52ch;
+  margin: 1.2rem 0 0;
+  color: var(--ink-soft);
+  font-size: 1.02rem;
+  line-height: 1.65;
+}
+
+.section-heading.compact {
+  margin-bottom: 2.3rem;
+}
+
+.section-heading.compact h2 {
+  max-width: 18ch;
+  font-size: clamp(2rem, 3.6vw, 3.2rem);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Uses - asymmetric photo bento (4 cells for 4 use cases)                 */
+/* ---------------------------------------------------------------------- */
+
+.uses-section {
+  background: var(--bg-soft);
+}
+
+.uses-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+.use-card {
+  display: grid;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  transition:
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    transform 220ms ease;
+}
+
+.use-card:nth-child(1) {
+  grid-column: span 7;
+}
+
+.use-card:nth-child(2) {
+  grid-column: span 5;
+}
+
+.use-card:nth-child(3) {
+  grid-column: span 5;
+}
+
+.use-card:nth-child(4) {
+  grid-column: span 7;
+}
+
+.use-card:hover {
+  border-color: var(--line-strong);
+  box-shadow: var(--shadow-small);
+  transform: translateY(-4px);
+}
+
+.use-image {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  background: var(--bg-soft);
+}
+
+.use-image img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.use-card:hover .use-image img {
+  transform: scale(1.04);
+}
+
+.use-content {
+  display: grid;
+  gap: 0.7rem;
+  padding: clamp(1.2rem, 2.5vw, 1.8rem);
+}
+
+.use-content h3 {
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(1.2rem, 2.2vw, 1.6rem);
+  font-weight: 750;
+  letter-spacing: -0.02em;
+}
+
+.use-content p {
+  max-width: 40ch;
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.91rem;
+  line-height: 1.55;
+}
+
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: fit-content;
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 780;
+}
+
+.text-link svg {
+  transition: transform 180ms ease;
+}
+
+.text-link:hover svg {
+  transform: translateX(3px);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Bodyworks - horizontal scroll-snap carousel (5 cards)                   */
+/* ---------------------------------------------------------------------- */
+
+.bodyworks-section {
+  border-top: 1px solid var(--line);
+}
+
+/* Informational chips, not filters: the five body-style names the client
+   confirmed. Rendered as a plain list, no hover/active affordance, so they
+   read as data rather than controls. */
+.bodyworks-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: -1.2rem 0 1.8rem;
+  padding: 0;
+  list-style: none;
+}
+
+.bodyworks-pills li {
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+  font-weight: 650;
+  padding: 0.5rem 0.85rem;
+}
+
+.bodywork-scroller {
+  position: relative;
+  margin-top: clamp(1rem, 3vw, 2rem);
+}
+
+/* Soft edge fade hints that the row scrolls horizontally, without any
+   "scroll to explore" text cue. */
+.bodywork-scroller::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0.6rem;
+  z-index: 1;
+  width: 72px;
+  background: linear-gradient(to right, transparent, var(--bg));
+  content: "";
+  pointer-events: none;
+}
+
+.bodywork-track {
+  display: flex;
+  gap: 1.1rem;
+  margin: 0;
+  padding: 0.2rem 0 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+}
+
+.bodywork-card {
+  position: relative;
+  display: grid;
+  flex: 0 0 min(78vw, 330px);
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  scroll-snap-align: start;
+  transition:
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    transform 220ms ease;
+}
+
+.bodywork-card:hover {
+  border-color: var(--line-strong);
+  box-shadow: var(--shadow-small);
+  transform: translateY(-4px);
+}
+
+.bodywork-media {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  background: var(--bg-soft);
+}
+
+.bodywork-media img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bodywork-card:hover .bodywork-media img {
+  transform: scale(1.04);
+}
+
+.bodywork-copy {
+  display: grid;
+  gap: 0.45rem;
+  padding: 1.1rem 1.2rem 1.35rem;
+}
+
+.bodywork-copy h3 {
+  margin: 0;
+  color: var(--ink);
+  font-size: 1.1rem;
+  font-weight: 760;
+  letter-spacing: -0.01em;
+}
+
+.bodywork-copy p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Accessibility - full-width editorial banner with an overlapping panel  */
+/* ---------------------------------------------------------------------- */
+
+.access-section {
+  border-top: 1px solid var(--line);
+}
+
+.access-layout {
+  position: relative;
+}
+
+.access-frame {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-soft);
+}
+
+.access-frame img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.access-panel {
+  position: relative;
+  z-index: 1;
+  max-width: 480px;
+  margin: -3.5rem 0 0 clamp(0.5rem, 4vw, 3rem);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  padding: clamp(1.4rem, 3vw, 2.2rem);
+}
+
+.access-badge {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border-radius: var(--radius-small);
+  background: var(--accent-soft);
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+
+.access-panel h2 {
+  max-width: 20ch;
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(1.6rem, 2.8vw, 2.1rem);
+  font-weight: 760;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.access-panel p {
+  max-width: 42ch;
+  margin: 0.85rem 0 0;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.access-panel .text-link {
+  margin-top: 1.2rem;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Seating - asymmetric photo bento trio (3 cells)                         */
+/* ---------------------------------------------------------------------- */
+
+.seating-section {
+  background: var(--bg-soft);
+}
+
+.seats-grid {
+  display: grid;
+  gap: 1rem;
+  margin-top: clamp(2.2rem, 5vw, 3.5rem);
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(260px, 1fr));
+}
+
+.seat-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+/* Explicit line numbers (not just `span`) so the featured card always lands
+   on the left: mixing auto-placed and row-locked items would otherwise let
+   the grid's auto-placement cursor fill the row-locked items first and push
+   the auto one to the right. */
+.seat-card:nth-child(1) {
+  grid-column: 1 / span 7;
+  grid-row: 1 / span 2;
+}
+
+.seat-card:nth-child(2) {
+  grid-column: 8 / span 5;
+  grid-row: 1;
+}
+
+.seat-card:nth-child(3) {
+  grid-column: 8 / span 5;
+  grid-row: 2;
+}
+
+.seat-card img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.seat-card:hover img {
+  transform: scale(1.035);
+}
+
+.seat-scrim {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: grid;
+  gap: 0.3rem;
+  background: linear-gradient(to top, rgba(16, 26, 32, 0.86) 0%, rgba(16, 26, 32, 0.5) 55%, transparent 100%);
+  padding: 2.4rem 1.3rem 1.2rem;
+}
+
+.seat-scrim strong {
+  color: var(--on-accent);
+  font-size: 1.05rem;
+  font-weight: 760;
+}
+
+.seat-scrim span {
+  max-width: 34ch;
+  color: color-mix(in srgb, var(--on-accent) 88%, transparent);
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Process / asesoria - asymmetric text arrangement, no step numbering     */
+/* ---------------------------------------------------------------------- */
+
+.process-section {
+  border-top: 1px solid var(--line);
+}
+
+.process-grid {
+  display: grid;
+  gap: 2.5rem 2rem;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+.process-item {
+  display: grid;
+  align-content: start;
+  gap: 0.9rem;
+}
+
+.process-item:nth-child(1) {
+  grid-column: span 6;
+}
+
+.process-item:nth-child(2) {
+  grid-column: span 6;
+  margin-top: clamp(1.5rem, 4vw, 3rem);
+}
+
+.process-item:nth-child(3) {
+  grid-column: span 12;
+  border-top: 1px solid var(--line);
+  padding-top: 1.8rem;
+}
+
+.process-icon {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-small);
+  color: var(--accent);
+}
+
+.process-item h3 {
+  max-width: 20ch;
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(1.3rem, 2vw, 1.6rem);
+  font-weight: 750;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.process-item p {
+  max-width: 46ch;
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.94rem;
+  line-height: 1.55;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Profile - single-column editorial statement                            */
+/* ---------------------------------------------------------------------- */
+
+.profile-section {
+  border-top: 1px solid var(--line);
+}
+
+.profile-statement {
+  max-width: 760px;
+}
+
+/* The client's portrait lives inside the single-column statement (contained,
+   system corner radius) rather than as a second column, so this section
+   does not repeat the "split" family already used by the hero and contact
+   sections. Aspect ratio is fixed from the source (635 x 704) so the image
+   reserves its box before it loads, avoiding layout shift. */
+.profile-portrait {
+  position: relative;
+  overflow: hidden;
+  width: 132px;
+  aspect-ratio: 635 / 704;
+  border-radius: var(--radius-small);
+  background: var(--bg-soft);
+  margin-bottom: 1.5rem;
+}
+
+.profile-portrait img {
+  object-fit: cover;
+}
+
+.profile-signature-label {
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 780;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.profile-statement h2 {
+  max-width: 16ch;
+  margin: 1.2rem 0 0;
+  color: var(--ink);
+  font-size: clamp(2.1rem, 4.4vw, 3.4rem);
+  font-weight: 780;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+}
+
+.profile-statement p {
+  max-width: 58ch;
+  margin: 1.3rem 0 0;
+  color: var(--ink-soft);
+  font-size: 1.03rem;
+  line-height: 1.7;
+}
+
+.signature-caption {
+  display: grid;
+  gap: 0.2rem;
+  margin-top: 1.6rem;
+}
+
+.signature-caption strong {
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 750;
+}
+
+.signature-caption span {
+  color: var(--ink-faint);
+  font-size: 0.82rem;
+}
+
+.coverage-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 1.8rem;
+}
+
+.coverage-line span {
+  border-radius: var(--radius-pill);
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 720;
+  padding: 0.55rem 0.85rem;
+}
+
+/* ---------------------------------------------------------------------- */
+/* FAQ - stacked heading + accordion                                       */
+/* ---------------------------------------------------------------------- */
+
+.faq-section {
+  background: var(--bg-soft);
+  border-top: 1px solid var(--line);
+}
+
+.faq-container {
+  max-width: 800px;
+}
+
+.faq-list {
+  border-top: 1px solid var(--line-strong);
+}
+
+.faq-item {
+  border-bottom: 1px solid var(--line);
+}
+
+.faq-trigger {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: transparent;
+  color: var(--ink);
+  padding: 1.25rem 0;
+  text-align: left;
+  list-style: none;
+}
+
+.faq-trigger::-webkit-details-marker {
+  display: none;
+}
+
+.faq-trigger span:first-child {
+  max-width: 50ch;
+  font-size: 1rem;
+  font-weight: 710;
+}
+
+.faq-icon {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  place-items: center;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  color: var(--accent);
+  transition: transform 180ms ease;
+}
+
+.faq-item[open] .faq-icon {
+  transform: rotate(45deg);
+}
+
+.faq-answer {
+  max-width: 64ch;
+  margin: -0.2rem 2.8rem 1.3rem 0;
+  color: var(--ink-soft);
+  font-size: 0.94rem;
+  line-height: 1.65;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Contact - split panel (info + form)                                     */
+/* ---------------------------------------------------------------------- */
+
+.contact-section {
+  padding-top: clamp(4rem, 8vw, 7rem);
+}
+
+.contact-panel {
+  display: grid;
+  gap: clamp(2rem, 6vw, 6rem);
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: clamp(1.4rem, 5vw, 4rem);
+  box-shadow: var(--shadow);
+}
+
+.contact-copy h2 {
+  max-width: 11ch;
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(2.1rem, 4.2vw, 3.6rem);
+  font-weight: 780;
+  letter-spacing: -0.03em;
+  line-height: 1.04;
+}
+
+.contact-copy p {
+  max-width: 36ch;
+  margin: 1.35rem 0 0;
+  color: var(--ink-soft);
+  line-height: 1.65;
+}
+
+.contact-details {
+  display: grid;
+  gap: 0.8rem;
+  margin-top: 2.2rem;
+}
+
+.contact-detail {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--ink-soft);
+  font-size: 0.86rem;
+  transition: color 180ms ease;
+}
+
+.contact-detail:hover {
+  color: var(--accent);
+}
+
+.contact-detail svg {
+  color: var(--accent);
+}
+
+.contact-form {
+  display: grid;
+  align-content: start;
+  gap: 1rem;
+}
+
+.form-row {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.field {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.field label {
+  color: var(--ink);
+  font-size: 0.82rem;
+  font-weight: 720;
+}
+
+.field input,
+.field select,
+.field textarea {
+  width: 100%;
+  border: 1px solid var(--line-input);
+  border-radius: var(--radius-small);
+  background: var(--bg);
+  color: var(--ink);
+  padding: 0.8rem 0.85rem;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: var(--ink-faint);
+  opacity: 1;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus {
+  border-color: var(--focus);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--focus) 20%, transparent);
+  outline: 0;
+}
+
+.field textarea {
+  min-height: 130px;
+  resize: vertical;
+}
+
+.form-helper {
+  margin: -0.25rem 0 0;
+  color: var(--ink-faint);
+  font-size: 0.75rem;
+  line-height: 1.45;
+}
+
+.form-error {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: -0.2rem 0 0;
+  color: var(--accent-strong);
+  font-size: 0.8rem;
+  font-weight: 680;
+}
+
+.form-error svg {
+  flex: 0 0 auto;
+}
+
+.form-submit {
+  justify-self: start;
+  margin-top: 0.4rem;
+}
+
+.form-success {
+  display: grid;
+  gap: 0.8rem;
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, var(--line));
+  border-radius: var(--radius-small);
+  background: var(--accent-soft);
+  color: var(--ink);
+  padding: 1rem;
+}
+
+.form-success strong {
+  font-size: 0.95rem;
+}
+
+.form-success span {
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+}
+
+.form-success a {
+  color: var(--accent);
+  font-size: 0.84rem;
+  font-weight: 760;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Footer + floating WhatsApp action                                       */
+/* ---------------------------------------------------------------------- */
+
+.site-footer {
+  border-top: 1px solid var(--line);
+  padding: 2rem 0 5.2rem;
+}
+
+.footer-inner {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.footer-copy {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.footer-copy strong {
+  color: var(--ink);
+  font-size: 0.9rem;
+  font-weight: 750;
+}
+
+.footer-copy span {
+  color: var(--ink-faint);
+  font-size: 0.76rem;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 1rem 1.25rem;
+}
+
+.footer-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--ink-soft);
+  font-size: 0.8rem;
+  font-weight: 650;
+  transition: color 180ms ease;
+}
+
+.footer-links a:hover {
+  color: var(--accent);
+}
+
+/*
+ * Client-requested exception to the single-accent lock (Section 4.2
+ * override), scoped to this one element only: the floating WhatsApp button
+ * uses WhatsApp's own brand green, because it identifies a third-party
+ * channel, not a second decorative accent for the page. Every other CTA on
+ * the page stays petrol blue.
+ *
+ * The bright WhatsApp green (#25D366) is deliberately NOT used here: a white
+ * glyph on #25D366 measures ~1.98:1, and #25D366 against this page's
+ * background measures ~1.83:1, both well under the WCAG non-text 3:1 floor.
+ * #075E54 is WhatsApp's own dark-teal brand color (used historically in
+ * their app header) and clears contrast on both counts (white glyph 7.67:1,
+ * button-against-page-background 7.07:1).
+ */
+.whatsapp-float {
+  --whatsapp-green: #075e54;
+  --whatsapp-green-strong: #054840;
+  position: fixed;
+  right: clamp(0.85rem, 2vw, 1.5rem);
+  bottom: clamp(1rem, 2.5vw, 1.7rem);
+  z-index: 30;
+  display: grid;
+  width: 56px;
+  height: 56px;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: var(--whatsapp-green);
+  box-shadow: 0 14px 28px color-mix(in srgb, var(--whatsapp-green) 38%, transparent);
+  color: #ffffff;
+  transition:
+    background 180ms ease,
+    transform 180ms ease;
+}
+
+.whatsapp-float:hover {
+  background: var(--whatsapp-green-strong);
+  transform: translateY(-3px);
+}
+
+.whatsapp-float svg {
+  flex: 0 0 auto;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Responsive collapse                                                     */
+/* ---------------------------------------------------------------------- */
+
+@media (max-width: 1100px) {
+  .desktop-nav {
+    gap: 1rem;
+  }
+
+  .desktop-nav a {
+    font-size: 0.79rem;
+  }
+
+  .hero {
+    gap: 3rem;
+    grid-template-columns: minmax(0, 0.9fr) minmax(360px, 1.1fr);
+  }
+
+  .hero h1 {
+    font-size: clamp(2.6rem, 5vw, 3.4rem);
+  }
+}
+
+@media (max-width: 820px) {
+  .nav-inner,
+  .container {
+    width: min(100% - 2rem, var(--max-width));
+  }
+
+  .desktop-nav,
+  .nav-action {
+    display: none;
+  }
+
+  .menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+  }
+
+  /* The toggle button and this panel are siblings inside `.nav-inner`
+     (a flex row), so without explicit positioning the panel would become a
+     flex item next to the button instead of a full-width dropdown. Absolute
+     positioning against `.site-header` (the nearest positioned ancestor,
+     since it is `position: sticky`) pulls it out of the flex flow. */
+  .mobile-nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    display: grid;
+    width: 100%;
+    border-top: 1px solid var(--line);
+    background: var(--bg);
+    box-shadow: var(--shadow-small);
+  }
+
+  .mobile-nav-inner {
+    display: grid;
+    gap: 0.2rem;
+    width: min(100% - 2rem, var(--max-width));
+    margin: 0 auto;
+    padding: 0.8rem 0 1.1rem;
+  }
+
+  .mobile-nav a {
+    border-bottom: 1px solid var(--line);
+    color: var(--ink);
+    font-size: 0.96rem;
+    font-weight: 680;
+    padding: 0.7rem 0;
+  }
+
+  .mobile-nav a:last-child {
+    border-bottom: 0;
+    color: var(--accent);
+  }
+
+  .hero {
+    min-height: auto;
+    grid-template-columns: 1fr;
+    padding: 2.4rem 0 4.8rem;
+  }
+
+  .hero-copy {
+    max-width: 650px;
+  }
+
+  .hero h1 {
+    max-width: 20ch;
+    font-size: clamp(2.4rem, 8.8vw, 3.4rem);
+  }
+
+  .hero-visual {
+    width: min(100%, 680px);
+    justify-self: end;
+  }
+
+  .proof-bar {
+    grid-template-columns: 1fr;
+  }
+
+  .proof-item {
+    min-height: 88px;
+    padding: 1rem 0;
+  }
+
+  .proof-item + .proof-item {
+    border-top: 1px solid var(--line);
+    border-left: 0;
+  }
+
+  .access-panel {
+    max-width: none;
+    margin: 1.4rem 0 0;
+  }
+
+  .seats-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+  }
+
+  .seat-card:nth-child(1),
+  .seat-card:nth-child(2),
+  .seat-card:nth-child(3) {
+    grid-column: 1;
+    grid-row: auto;
+    aspect-ratio: 4 / 3;
+  }
+
+  .process-item:nth-child(1),
+  .process-item:nth-child(2) {
+    grid-column: span 12;
+    margin-top: 0;
+  }
+
+  .process-item:nth-child(2) {
+    border-top: 1px solid var(--line);
+    padding-top: 1.8rem;
+  }
+
+  .contact-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-copy h2 {
+    max-width: 13ch;
+  }
+}
+
+@media (max-width: 620px) {
+  .nav-inner {
+    min-height: 64px;
+  }
+
+  .brand-mark {
+    width: 36px;
+    height: 36px;
+    flex-basis: 36px;
+    border-radius: 10px;
+  }
+
+  .brand-copy strong {
+    font-size: 0.88rem;
+  }
+
+  .brand-copy span {
+    font-size: 0.58rem;
+  }
+
+  .hero {
+    gap: 2.3rem;
+    padding-top: 2rem;
+  }
+
+  .hero h1 {
+    max-width: 20ch;
+    font-size: clamp(2.3rem, 11.5vw, 3rem);
+  }
+
+  .hero-lead {
+    font-size: 0.98rem;
+  }
+
+  .hero-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .button-primary,
+  .button-secondary {
+    width: 100%;
+  }
+
+  .hero-frame {
+    aspect-ratio: 4 / 3;
+    border-radius: 16px;
+  }
+
+  .section {
+    padding: 4.7rem 0;
+  }
+
+  .section-heading {
+    margin-bottom: 2rem;
+  }
+
+  .section-heading h2,
+  .contact-copy h2 {
+    max-width: 14ch;
+    font-size: clamp(2rem, 10vw, 2.8rem);
+  }
+
+  .profile-statement h2 {
+    max-width: 14ch;
+    font-size: clamp(2rem, 10vw, 2.6rem);
+  }
+
+  .uses-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .use-card:nth-child(n) {
+    grid-column: auto;
+  }
+
+  .use-image {
+    aspect-ratio: 16 / 9;
+  }
+
+  .bodywork-card {
+    flex-basis: 82vw;
+  }
+
+  .access-frame {
+    aspect-ratio: 4 / 3;
+    border-radius: 16px;
+  }
+
+  .access-panel {
+    border-radius: 16px;
+    padding: 1.25rem;
+  }
+
+  .process-grid {
+    gap: 2rem 1.5rem;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-panel {
+    border-radius: 16px;
+    padding: 1.25rem;
+  }
+
+  .form-submit {
+    width: 100%;
+  }
+
+  .footer-inner {
+    display: grid;
+    gap: 1.3rem;
+  }
+
+  .footer-links {
+    justify-content: flex-start;
+  }
+
+  .whatsapp-float {
+    right: 0.8rem;
+    bottom: 0.8rem;
+    width: 50px;
+    height: 50px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

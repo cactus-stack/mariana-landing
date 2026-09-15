@@ -1,0 +1,21 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // The Worker name must match the one Cloudflare Workers Builds connects to,
+  // which it derives from the repository name. A mismatch here is silently
+  // ignored by Workers Builds but breaks local `wrangler deploy`.
+  "name": "mariana-landing",
+  "compatibility_date": "2026-09-15",
+
+  // Assets-only Worker: the Next.js static export is served straight from the
+  // edge, so there is no server-side entrypoint.
+  "assets": {
+    "directory": "./out",
+    "not_found_handling": "404-page"
+  },
+
+  // The marianabarrera.com custom domain is attached after the first deploy is
+  // verified on *.workers.dev, so a bad build never reaches the real domain.
+  "observability": {
+    "enabled": true
+  }
+}
