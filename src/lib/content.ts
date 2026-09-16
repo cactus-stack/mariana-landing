@@ -7,6 +7,28 @@ export const email = site.email;
 export const socialLinks = site.socials;
 export const whatsappBase = `https://wa.me/${site.whatsappNumber}`;
 
+// NOTE: there is no dedicated photo per confirmed bodywork (Ayco Zafiro,
+// Ayco Cosmopolitan, Beccar, Urviabus, Marcopolo). Forcing a specific photo
+// onto a bodywork name we cannot verify on that unit is dishonest, so the
+// asset pipeline replaced that approach with a gallery of real, emblem
+// verified units (see docs/ASSETS.md, "Tabla de derivados"). `bodyworks`
+// below lists the five confirmed names as text; `unitGallery` carries the
+// real photos, each one named for what its own emblem actually reads.
+//
+// DO NOT re-add per-bodywork images here without checking with team-lead
+// first (see mariana-content/team-lead thread): this file has been
+// overwritten multiple times with a 6-item version that (a) shows
+// unidad-ayco-zafiro-gt.webp, the only two "Zafiro GT" units found, both
+// marked "VENDIDO" in every available photo, as if it were the client's
+// "Ayco Zafiro" catalog entry (it is also a smaller Sprinter-chassis vehicle,
+// not the coach-type unit a buyer would expect from that name), and
+// (b) adds "Ayco Sigma OF" as a sixth sales item, which mariana-assets
+// confirmed is a real emblem on a real photo but NOT a bodywork the client
+// has confirmed she sells. Both are pending decisions for team-lead / the
+// client, not something to resolve by editing this file.
+//
+// retrato-mariana.webp is also intentionally not wired in: provenance and
+// usage rights are unconfirmed per docs/ASSETS.md.
 export const photos = {
   hero: "/images/hero-1600.webp",
   heroSmall: "/images/hero-800.webp",
@@ -58,10 +80,11 @@ export const uses: readonly {
   ...useMedia[useCase.id],
 }));
 
-// Gallery of real units. Every name here is read off an emblem visible in the
-// photo, never assumed: labelling a unit as a bodywork we cannot see on it is
-// exactly the failure this section exists to avoid. The five bodyworks the
-// client actually sells are listed as text from site.product.bodyStyles.
+// The five bodyworks the client actually sells, as confirmed text. No photo
+// is attached per item; see the note above `photos` for why.
+// Gallery of units. Every name is read off an emblem visible in the photo.
+// The five bodyworks the client sells are listed separately as text from
+// site.product.bodyStyles, so this gallery never doubles as a sales catalogue.
 export const bodyworks = [
   {
     name: "Ayco Zafiro GT",
@@ -106,19 +129,19 @@ export const seats = [
     name: "Asientos altos fijos en tela",
     description: "Respaldo alto tapizado en tela, en posición fija sin reclinado.",
     image: photos.interiorTela,
-    alt: "Interior de autobús con asientos altos tapizados en tela.",
+    alt: "Interior de autobús con asientos altos tapizados en tela de patrón geométrico.",
   },
   {
     name: "Asientos altos fijos en plástico",
     description: "Respaldo alto con cubierta de plástico, en posición fija sin reclinado.",
     image: photos.interiorPlastico,
-    alt: "Interior de autobús con asientos altos y cubierta de plástico.",
+    alt: "Interior de autobús con asientos altos y cubierta de plástico gris y azul.",
   },
   {
     name: "Asientos reclinables",
     description: "Respaldo reclinable, con ajuste de inclinación durante el recorrido.",
     image: photos.interiorReclinable,
-    alt: "Interior de autobús con asientos reclinables.",
+    alt: "Interior de autobús con asientos reclinables de tela azul y cinturón de seguridad.",
   },
 ] as const;
 

@@ -16,8 +16,8 @@ alta en Cloudflare). Ver la sección siguiente para cómo se usa.
 - El texto visible debe mencionar de forma natural transporte urbano, de
   personal, escolar y turismo; las carrocerías Ayco Zafiro, Ayco Cosmopolitan,
   Beccar, Urviabus y Marcopolo; las configuraciones de asientos en
-  `site.product`; y la configuración de accesibilidad (rampa y espacio para
-  silla de ruedas) en `landingContent.accessibility`.
+  `site.product`; y la configuración de accesibilidad en
+  `landingContent.accessibility`.
 - La zona principal es Ciudad de México, Estado de México y área metropolitana.
   Hay oficinas en Texcoco de Mora, Estado de México. La frase de alcance debe
   decir que se reciben consultas de toda la República Mexicana; no debe
@@ -25,15 +25,20 @@ alta en Cloudflare). Ver la sección siguiente para cómo se usa.
 - Usa `site.phoneDisplay`, `site.phoneHref`, `site.email` y
   `createWhatsAppHref()` para que teléfono, correo y WhatsApp siempre sean
   consistentes.
-- Las fotos deben llevar `alt` descriptivo y verdadero. No atribuyas una
-  carrocería a una imagen si el archivo no permite identificarla. Los cinco
-  `alt` de `bodyworks` en `content.ts` asumen que cada archivo
-  `carroceria-*.webp` muestra la carrocería que su nombre indica; si el agente
-  de assets no puede confirmar alguna por emblema, ese `name`/`blurb`/`alt`
-  debe volverse genérico en lugar de mantener la atribución.
+- Las fotos deben llevar `alt` descriptivo y verdadero. La afirmación de
+  catálogo ("estas son las cinco carrocerías que puedes cotizar") vive
+  únicamente en las cinco píldoras de texto de `bodyworks`
+  (`site.product.bodyStyles`); las fotos de unidades reales que acompañan la
+  sección son material de referencia, no una lista de precios, y su `alt`
+  nombra solo lo que el emblema visible en esa foto dice (ver
+  `docs/ASSETS.md`, sección "Tabla de derivados" y "Nota de procedencia: Ayco
+  Zafiro GT" para el único archivo que no viene del material de la clienta,
+  con la advertencia de derechos de fabricante ya documentada ahí).
 - La accesibilidad se describe como una configuración que se puede consultar
-  (rampa y espacio para silla de ruedas), no como un equipamiento presente en
-  todas las unidades.
+  (espacio señalizado para silla de ruedas con asiento abatible), no como una
+  rampa mecánica ni como equipamiento presente en todas las unidades. El
+  archivo `accesibilidad.webp` muestra el pictograma y el asiento, no un
+  mecanismo de rampa visible; el copy no debe afirmar "rampa".
 - `faqs` solo puede pasar a `getStructuredData({ includeFaq: true })` cuando las
   mismas preguntas y respuestas están visibles en el HTML.
 
@@ -42,6 +47,19 @@ ratings, años de experiencia y especificaciones que el cliente no confirmó. Lo
 cinco blurbs de carrocería describen marca y contexto general (a qué fabricante
 corresponde el nombre), nunca motor, capacidad o dimensiones que la clienta no
 dio.
+
+### Pendientes de decisión del equipo (no resueltos en este archivo)
+
+- `public/images/unidad-ayco-zafiro-gt.webp` existe en disco pero **no está
+  referenciado en `content.ts`**. Las dos únicas unidades "Zafiro GT"
+  encontradas están marcadas "VENDIDO" en todas sus fotos, y es un vehículo
+  tipo Sprinter, notablemente más chico que los coaches grandes del resto del
+  catálogo; presentarlo como el "Ayco Zafiro" del catálogo sin una leyenda
+  honesta ("unidad vendida, se muestra como referencia") sería engañoso.
+  Necesita una decisión del equipo/clienta antes de usarse.
+- `public/images/retrato-mariana.webp` existe en disco pero **no está
+  referenciado en `content.ts`**. Su procedencia y derechos de uso no están
+  confirmados (ver `docs/ASSETS.md`); no publicar hasta confirmar.
 
 ## URL de producción, canonical y Open Graph
 
