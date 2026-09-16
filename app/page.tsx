@@ -11,12 +11,12 @@ import {
   Scales,
   TiktokLogo,
   Wheelchair,
-  WhatsappLogo,
 } from "@phosphor-icons/react/dist/ssr";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import { InquiryForm } from "@/components/InquiryForm";
 import { MobileMenu } from "@/components/MobileMenu";
 import { Reveal } from "@/components/Reveal";
+import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { bodyworks, faqs, photos, seats, uses } from "@/src/lib/content";
 import {
   createWhatsAppHref,
@@ -46,13 +46,14 @@ export default function Home() {
       <header className="site-header">
         <div className="nav-inner">
           <a className="brand-lockup" href="#inicio" aria-label={`${site.personName}, ${site.brandName}`}>
-            <span className="brand-mark" aria-hidden="true">
-              MB
-            </span>
-            <span className="brand-copy">
-              <strong>{site.personName}</strong>
-              <span>{site.brandName}</span>
-            </span>
+            <Image
+              className="brand-logo"
+              src={photos.logo}
+              alt=""
+              width={761}
+              height={240}
+              priority
+            />
           </a>
           <nav className="desktop-nav" aria-label="Navegación principal">
             <a href="#opciones">Opciones</a>
@@ -75,7 +76,7 @@ export default function Home() {
             <p className="hero-lead">{landingContent.hero.body}</p>
             <div className="hero-actions">
               <a className="button-primary" href={whatsappHref} target="_blank" rel="noreferrer">
-                {landingContent.hero.primaryCta} <WhatsappLogo size={18} weight="fill" aria-hidden="true" />
+                {landingContent.hero.primaryCta} <WhatsAppIcon size={18} />
               </a>
               <a className="button-secondary" href="#opciones">
                 {landingContent.hero.secondaryCta} <CaretRight size={17} weight="bold" aria-hidden="true" />
@@ -268,19 +269,26 @@ export default function Home() {
         <section className="section profile-section" aria-labelledby="profile-heading">
           <div className="container profile-statement">
             <Reveal>
-              <div className="profile-portrait">
-                <Image
-                  src={photos.retratoMariana}
-                  alt="Mariana Barrera, asesora de ventas de autobuses en Zapata Camiones."
-                  fill
-                  sizes="132px"
-                />
+              <div className="profile-intro">
+                <div className="profile-portrait">
+                  <Image
+                    src={photos.retratoMariana}
+                    alt="Mariana Barrera, asesora de ventas de autobuses en Zapata Camiones."
+                    fill
+                    sizes="(max-width: 620px) 160px, 220px"
+                  />
+                </div>
+                <p className="profile-tenure">
+                  <strong>+10</strong>
+                  <span>años vendiendo autobuses</span>
+                </p>
               </div>
               <span className="profile-signature-label">Asesoría comercial</span>
               <h2 id="profile-heading">Tu proyecto tiene una persona al frente.</h2>
               <p>
-                Soy Mariana Barrera, asesora de ventas en {site.brandName}. Te ayudo a elegir el autobús, la
-                carrocería y los asientos para tu servicio.
+                Soy Mariana Barrera, asesora de ventas en {site.brandName}. Llevo más de diez años acompañando
+                compras de autobuses para rutas urbanas, personal, escuelas y turismo. Sé qué preguntar antes
+                de que firmes.
               </p>
               <div className="signature-caption">
                 <strong>{site.personName}</strong>
@@ -336,7 +344,7 @@ export default function Home() {
       </main>
 
       <a className="whatsapp-float" href={whatsappHref} target="_blank" rel="noreferrer" aria-label="Hablar con Mariana por WhatsApp">
-        <WhatsappLogo size={26} weight="fill" aria-hidden="true" />
+        <WhatsAppIcon size={28} />
       </a>
 
       <footer className="site-footer">

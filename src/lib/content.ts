@@ -47,6 +47,7 @@ export const photos = {
   interiorReclinable: "/images/interior-reclinable.webp",
   accesibilidad: "/images/accesibilidad.webp",
   retratoMariana: "/images/retrato-mariana.webp",
+  logo: "/images/logo.webp",
 } as const;
 
 // Media paired to each confirmed use case, keyed by site.product.useCases id.
