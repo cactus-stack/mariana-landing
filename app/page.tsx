@@ -16,6 +16,7 @@ import { FaqAccordion } from "@/components/FaqAccordion";
 import { InquiryForm } from "@/components/InquiryForm";
 import { MobileMenu } from "@/components/MobileMenu";
 import { Reveal } from "@/components/Reveal";
+import { UseCaseMedia } from "@/components/UseCaseMedia";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { bodyworks, faqs, photos, seats, uses } from "@/src/lib/content";
 import {
@@ -112,7 +113,7 @@ export default function Home() {
           </div>
           <div className="proof-item">
             <strong>{site.product.bodyStyles.length} carrocerías</strong>
-            <span>Ayco, Beccar, Urviabus y Marcopolo para revisar contigo.</span>
+            <span>Ayco, Toreto, Beccar, Urviabus y Marcopolo para revisar contigo.</span>
           </div>
           <div className="proof-item">
             <strong>Atención cercana</strong>
@@ -129,9 +130,7 @@ export default function Home() {
             <div className="uses-grid">
               {uses.map((use, index) => (
                 <Reveal key={use.id} className="use-card" delay={index * 0.05}>
-                  <div className="use-image">
-                    <Image src={use.image} alt={use.alt} fill sizes="(max-width: 620px) 100vw, 58vw" />
-                  </div>
+                  <UseCaseMedia images={use.images} label={use.title} />
                   <div className="use-content">
                     <h3>{use.title}</h3>
                     <p>{use.description}</p>
@@ -354,11 +353,11 @@ export default function Home() {
             <span>Asesoría comercial para autobuses Mercedes-Benz.</span>
           </div>
           <nav className="footer-links" aria-label="Enlaces de contacto y redes sociales">
-            <a href={facebookHref} target="_blank" rel="noreferrer">
-              <FacebookLogo size={16} weight="fill" aria-hidden="true" /> Facebook
+            <a className="footer-social" href={facebookHref} target="_blank" rel="noreferrer">
+              <FacebookLogo size={26} weight="fill" aria-hidden="true" /> Facebook
             </a>
-            <a href={tiktokHref} target="_blank" rel="noreferrer">
-              <TiktokLogo size={16} weight="fill" aria-hidden="true" /> TikTok
+            <a className="footer-social" href={tiktokHref} target="_blank" rel="noreferrer">
+              <TiktokLogo size={26} weight="fill" aria-hidden="true" /> TikTok
             </a>
             <a href={site.phoneHref}>Llamar</a>
             <a href={`mailto:${site.email}`}>Correo</a>

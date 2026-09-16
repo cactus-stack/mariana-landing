@@ -32,10 +32,17 @@ export const whatsappBase = `https://wa.me/${site.whatsappNumber}`;
 export const photos = {
   hero: "/images/hero-1600.webp",
   heroSmall: "/images/hero-800.webp",
-  usoUrbano: "/images/uso-urbano.webp",
-  usoPersonal: "/images/uso-personal.webp",
-  usoEscolar: "/images/uso-escolar.webp",
-  usoTurismo: "/images/uso-turismo.webp",
+  usoUrbano1: "/images/uso-urbano-1.webp",
+  usoUrbano2: "/images/uso-urbano-2.webp",
+  usoUrbano3: "/images/uso-urbano-3.webp",
+  usoPersonal1: "/images/uso-personal-1.webp",
+  usoPersonal2: "/images/uso-personal-2.webp",
+  usoPersonal3: "/images/uso-personal-3.webp",
+  usoEscolar1: "/images/uso-escolar-1.webp",
+  usoEscolar2: "/images/uso-escolar-2.webp",
+  usoTurismo1: "/images/uso-turismo-1.webp",
+  usoTurismo2: "/images/uso-turismo-2.webp",
+  usoTurismo3: "/images/uso-turismo-3.webp",
   unidadAycoZafiroGt: "/images/unidad-ayco-zafiro-gt.webp",
   unidadToreto: "/images/unidad-toreto.webp",
   unidadAycoCosmopolitan: "/images/unidad-ayco-cosmopolitan.webp",
@@ -52,34 +59,73 @@ export const photos = {
 } as const;
 
 // Media paired to each confirmed use case, keyed by site.product.useCases id.
-const useMedia: Record<string, { image: string; alt: string }> = {
-  urbano: {
-    image: photos.usoUrbano,
-    alt: "Autobús urbano morado de Corredor 25 con carrocería Toreto, completo y de tres cuartos.",
-  },
-  personal: {
-    image: photos.usoPersonal,
-    alt: "Autobús Marcopolo Torino morado, completo, visto de tres cuartos trasero.",
-  },
-  escolar: {
-    image: photos.usoEscolar,
-    alt: "Autobús Mercedes-Benz AYCO azul, completo, visto de tres cuartos trasero.",
-  },
-  turismo: {
-    image: photos.usoTurismo,
-    alt: "Autobús Beccar Urviabus MT blanco de parabrisas panorámico, completo, vista lateral.",
-  },
+// Several angles of the SAME physical unit per use case, so the card reads as
+// "this bus, from a few sides" rather than as a carousel of different buses.
+// The first entry is the one shown at rest and is always a front or
+// three-quarter front view, which is what a buyer wants to see first.
+const useMedia: Record<string, readonly { src: string; alt: string }[]> = {
+  urbano: [
+    {
+      src: photos.usoUrbano1,
+      alt: "Autobús Mercedes-Benz Toreto morado de Corredor 25, completo, de tres cuartos frontal con la puerta abierta.",
+    },
+    {
+      src: photos.usoUrbano2,
+      alt: "La misma unidad Toreto morada, vista lateral completa.",
+    },
+    {
+      src: photos.usoUrbano3,
+      alt: "Interior de la misma unidad, con los asientos aún cubiertos con plástico de fábrica y barras amarillas.",
+    },
+  ],
+  personal: [
+    {
+      src: photos.usoPersonal1,
+      alt: "Autobús Mercedes-Benz AYCO Cosmopolitan blanco, completo, de tres cuartos frontal.",
+    },
+    {
+      src: photos.usoPersonal2,
+      alt: "La misma unidad AYCO blanca, vista trasera completa.",
+    },
+    {
+      src: photos.usoPersonal3,
+      alt: "Interior de la misma unidad, con asientos de plástico duro gris y azul y pasillo central.",
+    },
+  ],
+  escolar: [
+    {
+      src: photos.usoEscolar1,
+      alt: "Autobús Mercedes-Benz AYCO Sigma OF azul, completo, de tres cuartos frontal.",
+    },
+    {
+      src: photos.usoEscolar2,
+      alt: "La misma unidad azul, vista de tres cuartos trasero.",
+    },
+  ],
+  turismo: [
+    {
+      src: photos.usoTurismo1,
+      alt: "Autobús Beccar Urviabus MT blanco de parabrisas panorámico, completo, de tres cuartos frontal.",
+    },
+    {
+      src: photos.usoTurismo2,
+      alt: "La misma unidad blanca, vista lateral completa.",
+    },
+    {
+      src: photos.usoTurismo3,
+      alt: "Interior de la misma unidad, con asientos reclinables, cortinas y portaequipaje.",
+    },
+  ],
 };
 
 export const uses: readonly {
   id: string;
   title: string;
   description: string;
-  image: string;
-  alt: string;
+  images: readonly { src: string; alt: string }[];
 }[] = site.product.useCases.map((useCase) => ({
   ...useCase,
-  ...useMedia[useCase.id],
+  images: useMedia[useCase.id],
 }));
 
 // The five bodyworks the client actually sells, as confirmed text. No photo
@@ -102,7 +148,7 @@ export const bodyworks = [
   },
   {
     name: "Ayco Cosmopolitan",
-    blurb: "Unidad blanca de piso alto, con puerta de servicio y escalones de contraste.",
+    blurb: "Unidad blanca de piso alto, con puerta de servicio y escalón retráctil.",
     image: photos.unidadAycoCosmopolitan,
     alt: "Autobús Mercedes-Benz blanco con carrocería Ayco Cosmopolitan, completo y de tres cuartos.",
   },
@@ -114,7 +160,7 @@ export const bodyworks = [
   },
   {
     name: "Urviabus MT",
-    blurb: "Modelo Urviabus MT de Beccar, con parabrisas panorámico de una sola pieza.",
+    blurb: "Modelo Urviabus MT de Beccar, parabrisas de dos piezas y ventanas con sección corrediza.",
     image: photos.unidadUrviabusMt,
     alt: "Autobús Mercedes-Benz blanco Beccar Urviabus MT, completo, dentro de una nave industrial.",
   },

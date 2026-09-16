@@ -81,6 +81,50 @@ Aparecieron ~62 archivos nuevos directamente en `public/` a media sesión (UUID 
 - 19 archivos en `public/images/`: hero x2, uso x4, galería `unidad-*` x7, interior x3, accesibilidad, og.jpg, retrato-mariana. Todos con las dimensiones documentadas arriba (verificado con `magick identify`), EXIF/GPS vacío en todos los que yo generé.
 - `du -sh assets-src/` → 125 MB (73 originales del lote base + ~62 del lote adicional, mayormente duplicados).
 
+## Sets de "Autobuses para cada servicio" (hover de 3 fotos)
+
+Encargo: reemplazar cada `uso-*.webp` único por un set `uso-<caso>-1/2/3.webp` (1200x900, misma unidad física en las tres, `-1` obligatoriamente frontal o tres cuartos frontal). Los cuatro `uso-*.webp` viejos se dejan intactos en `public/images/` a propósito — el equipo los quita al cablear el código.
+
+**Resultado: 4 de 4 sets completados**, 12 archivos en total (3 fotos por caso de uso).
+
+### urbano y personal
+
+```
+uso-urbano-1.webp | Toreto morada Corredor 25, folio "652400" (visible en el letrero de ruta y en el rótulo del techo), tres cuartos frontal | Autobús Mercedes-Benz Toreto morado, folio 652400, Corredor 25, completo, de tres cuartos frontal, puerta abierta, patio con muro de tabique.
+uso-urbano-2.webp | misma unidad 652400, lateral completo | Autobús Mercedes-Benz Toreto morado, folio 652400, Corredor 25, vista lateral completa, patio con espectacular al fondo.
+uso-urbano-3.webp | misma unidad 652400, folio visible en el rótulo del techo del pasillo | Interior de autobús recién entregado, folio 652400 visible en el techo, asientos aún con plástico de fábrica, barras tomapies amarillas, pasillo completo.
+uso-personal-1.webp | AYCO "Cosmopolitan" (script visible en costado en las otras dos fotos del set), frontal recto | Autobús Mercedes-Benz AYCO blanco, frontal recto, estacionamiento de agencia con letrero "...aeropuerto" al fondo.
+uso-personal-2.webp | misma familia AYCO Cosmopolitan, trasera recta, "AYCO" + "Mercedes-Benz" en la defensa | Autobús Mercedes-Benz AYCO blanco, vista trasera completa, nave con techo industrial.
+uso-personal-3.webp | interior sin emblema, mismo patio (camioneta blanca y autobús morado visibles por la ventana, consistente con personal-1) | Interior de autobús con asientos de plástico duro gris y azul, barras amarillas, pasillo completo, patio visible por las ventanas.
+```
+
+Confianza de "misma unidad": **urbano alta** (folio 652400 legible en las tres fotos). **personal media-alta**: las tres muestran el mismo wordmark "AYCO"/"Cosmopolitan", ninguna tiene VENDIDO, y comparten patio/vehículos de fondo, pero esta carrocería no trae folio visible en ninguna toma, así que no hay un identificador único cruzado como en el resto de las unidades — no lo afirmo con la misma certeza que las demás.
+
+### escolar y turismo
+
+Al revisar sistemáticamente los ~91 originales accesibles de `assets-src/` encontré que las dos unidades sugeridas para estos casos de uso ya se vendieron:
+
+- **AYCO Sigma OF azul, folio `TM088688`**: `058e783d-d23b-4c41-a7d2-995367f46a5b.JPG` y `1f4faf23-5fbd-43e7-bd02-7781e9ee4d93.JPG` muestran el letrero "TM088688 VENDIDO" legible en el parabrisas. `058e783d` es, además, la misma toma exacta (mismo encuadre, misma persona de fondo) que ya está publicada como `public/images/unidad-ayco-sigma-of.webp`, solo recortada para sacar el letrero de cuadro.
+- **Beccar/Urviabus MT (carrocería coach), folio `TM088026`**: `25478851-7825-4b2c-968e-3a2360a0789e.JPG`, `43097a99-c40c-42ae-882d-623bf355aab0.JPG` y `c1406fbb-d59f-424a-8736-de57bbb1b315.JPG` muestran el mismo letrero "TM088026 VENDIDO" en el parabrisas (misma nave industrial, camión "Santa Clara" de fondo). El interior `dbb9f2d8-f642-4ae7-9c49-9245c7e1a184.JPG` tiene el letrero reflejado desde dentro. Es la misma nave/sesión que produjo `unidad-urviabus-mt.webp`, `uso-turismo.webp` e `interior-reclinable.webp`.
+
+Consultado el equipo: la regla de excluir "VENDIDO" es de **presentación** (que el letrero no aparezca en cuadro ni reflejado), no de honestidad de inventario — la sección muestra carrocerías que se cotizan sobre pedido, no existencias, así que una unidad ya entregada es una muestra válida del modelo. Con ese criterio (el mismo con el que ya se publicaron `unidad-ayco-sigma-of.webp` y `unidad-urviabus-mt.webp`), sí usé estas dos unidades, eligiendo ángulos donde el letrero no aparece:
+
+```
+uso-escolar-1.webp | "Sigma Of" en el costado sobre la puerta (misma unidad, folio TM088688, ángulo sin letrero) | Autobús Mercedes-Benz AYCO azul "Sigma Of", tres cuartos frontal, puerta abierta, patio exterior.
+uso-escolar-2.webp | "AYCO" en la defensa trasera, misma unidad | Autobús Mercedes-Benz AYCO azul, vista trasera completa, patio con malla ciclónica y otro vehículo blanco al fondo.
+uso-escolar-3.webp | "AYCO" en el techo de la cabina, misma unidad (vista desde dentro hacia el mismo patio de exhibición del Toreto blanco) | Interior de cabina de autobús, tablero y volante, vista hacia el patio de exhibición a través del parabrisas.
+uso-turismo-1.webp | "BECCAR" en el frente + "...viabus MT" en el costado (folio TM088026, ángulo sin letrero) | Autobús Mercedes-Benz Beccar Urviabus MT blanco, tres cuartos frontal, puerta abierta, nave industrial.
+uso-turismo-2.webp | "Mercedes-Benz" en la carrocería, misma unidad, ángulo lateral/trasero | Autobús Mercedes-Benz Beccar Urviabus MT blanco, vista lateral completa, nave industrial.
+uso-turismo-3.webp | sin emblema, misma familia de asientos que la unidad (patrón geométrico azul marino con rojo) | Interior de autobús tipo coach con asientos reclinables de tela azul marino con patrón geométrico, cortinas azules, pasillo completo.
+```
+
+Confianza de "misma unidad": alta para ambos sets — folio "TM088688"/"Sigma Of" y "TM088026"/"Urviabus MT" respectivamente confirmados en al menos dos de las tres fotos de cada set, y las tres comparten nave/patio y decoración. `uso-turismo-3` es la excepción: no tiene folio ni emblema visible, se vincula por tela/familia visual, no por identificador único — confianza media para esa tercera foto específicamente (documentado también en el manifiesto de content.ts).
+
+Alternativas que se revisaron y **no se usaron** por falta de material (no por VENDIDO):
+- **Beccar "Urbus G4", placa `35-51-XC`** (agencia "Detroit Diesel"/"Cummins"): limpio, en `15a503bf-...JPG` (frontal recto) y `3210c388-...JPG` (ya usado en `unidad-beccar.webp`). Sin ángulo lateral/trasero/interior propio en el resto del material — se dejó fuera de estos dos sets.
+- **Toreto blanco de showroom, folio `TM087471 DISPONIBLE`**: su único frontal (`toreto-showroom-3q.jpg` / `2965d02a-...JPG`) ya es exactamente `unidad-toreto.webp`; solo hay además una foto de puerta/escalones (`eee98f44-...JPG`) y una de la placa de especificaciones, sin lateral.
+- De paso, sin buscarlos, se confirmaron dos folios "Zafiro GT" vendidos ya documentados arriba (`VM089247` en `af0a9137...JPG`/`f308da25...JPG`, `SM085825` en `67bdbca4...JPG`/`5a43cc34...JPG`) y un tercer Beccar vendido con rostro identificable de un trabajador (`PM078989`, en `de54ec7c...JPG`/`ed7e78b8...JPG`) — estos si se descartaron, por VENDIDO+rostro, no por criterio de presentación.
+
 ## Nota de procedencia: Ayco Zafiro GT
 
 `unidad-ayco-zafiro-gt.webp` es la **única imagen de la galería que no proviene del material fotográfico de la clienta**. La carrocería Zafiro GT no aparece en ninguno de los 135 originales, así que la imagen se tomó de la cobertura de prensa del lanzamiento conjunto de Mercedes-Benz y AYCO (2021). Es una imagen de producto del fabricante, no una unidad fotografiada en el patio de Zapata.
