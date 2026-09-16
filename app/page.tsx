@@ -279,14 +279,14 @@ export default function Home() {
                   />
                 </div>
                 <p className="profile-tenure">
-                  <strong>+10</strong>
+                  <strong>+15</strong>
                   <span>años vendiendo autobuses</span>
                 </p>
               </div>
               <span className="profile-signature-label">Asesoría comercial</span>
               <h2 id="profile-heading">Tu proyecto tiene una persona al frente.</h2>
               <p>
-                Soy Mariana Barrera, asesora de ventas en {site.brandName}. Llevo más de diez años acompañando
+                Soy Mariana Barrera, asesora de ventas en {site.brandName}. Llevo más de quince años acompañando
                 compras de autobuses para rutas urbanas, personal, escuelas y turismo. Sé qué preguntar antes
                 de que firmes.
               </p>
