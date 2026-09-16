@@ -37,6 +37,7 @@ export const photos = {
   usoEscolar: "/images/uso-escolar.webp",
   usoTurismo: "/images/uso-turismo.webp",
   unidadAycoZafiroGt: "/images/unidad-ayco-zafiro-gt.webp",
+  unidadToreto: "/images/unidad-toreto.webp",
   unidadAycoCosmopolitan: "/images/unidad-ayco-cosmopolitan.webp",
   unidadBeccar: "/images/unidad-beccar.webp",
   unidadUrviabusMt: "/images/unidad-urviabus-mt.webp",
@@ -92,6 +93,12 @@ export const bodyworks = [
     blurb: "Carrocería Ayco Zafiro GT para transporte urbano, sobre chasis Mercedes-Benz.",
     image: photos.unidadAycoZafiroGt,
     alt: "Autobús urbano blanco con carrocería Ayco Zafiro GT, completo y de tres cuartos frontal.",
+  },
+  {
+    name: "Toreto",
+    blurb: "Carrocería Toreto sobre chasis Mercedes-Benz, una de las más vendidas.",
+    image: photos.unidadToreto,
+    alt: "Autobús Mercedes-Benz blanco con carrocería Toreto, completo y de tres cuartos frontal, en sala de exhibición.",
   },
   {
     name: "Ayco Cosmopolitan",

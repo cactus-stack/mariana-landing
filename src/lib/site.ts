@@ -98,6 +98,7 @@ export const site: SiteConfig = {
     brand: "Mercedes-Benz",
     bodyStyles: [
       "Ayco Zafiro",
+      "Toreto",
       "Ayco Cosmopolitan",
       "Beccar",
       "Urviabus",
@@ -174,7 +175,7 @@ export const landingContent = {
   bodies: {
     heading: "Carrocerías disponibles",
     body:
-      "Estas son las cinco carrocerías Mercedes-Benz que puedes cotizar con Mariana.",
+      "Estas son las seis carrocerías Mercedes-Benz que puedes cotizar con Mariana.",
     items: site.product.bodyStyles,
   },
   seats: {
@@ -207,7 +208,7 @@ export const faqs: readonly Faq[] = [
   {
     question: "¿Qué autobuses ofrece Mariana Barrera?",
     answer:
-      "Mariana asesora opciones de autobuses Mercedes-Benz con carrocerías Ayco Zafiro, Ayco Cosmopolitan, Beccar, Urviabus y Marcopolo.",
+      "Mariana asesora opciones de autobuses Mercedes-Benz con carrocerías Ayco Zafiro, Toreto, Ayco Cosmopolitan, Beccar, Urviabus y Marcopolo.",
   },
   {
     question: "¿Qué configuraciones de asientos hay?",
