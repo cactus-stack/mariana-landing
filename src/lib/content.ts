@@ -40,6 +40,7 @@ export const photos = {
   usoPersonal3: "/images/uso-personal-3.webp",
   usoEscolar1: "/images/uso-escolar-1.webp",
   usoEscolar2: "/images/uso-escolar-2.webp",
+  usoEscolar3: "/images/uso-escolar-3.webp",
   usoTurismo1: "/images/uso-turismo-1.webp",
   usoTurismo2: "/images/uso-turismo-2.webp",
   usoTurismo3: "/images/uso-turismo-3.webp",
@@ -100,6 +101,10 @@ const useMedia: Record<string, readonly { src: string; alt: string }[]> = {
     {
       src: photos.usoEscolar2,
       alt: "La misma unidad azul, vista de tres cuartos trasero.",
+    },
+    {
+      src: photos.usoEscolar3,
+      alt: "Acceso de la misma unidad, con la puerta abierta y los escalones a la vista.",
     },
   ],
   turismo: [
