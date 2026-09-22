@@ -1,235 +1,115 @@
-# SEO de Mariana Barrera / Zapata Camiones
+# SEO de Mariana Barrera
 
-Este proyecto concentra los datos públicos de la landing en
-[`src/lib/site.ts`](../src/lib/site.ts). El archivo es la fuente para el copy
-visible, los metadatos, el enlace de WhatsApp y el JSON-LD.
-[`src/lib/content.ts`](../src/lib/content.ts) arma, a partir de esa fuente, el
-contrato de datos que consume la vista: `photos`, `uses`, `bodyworks`, `seats`
-y `faqs`.
+Dominio público: **https://marianabarrera.com/**. El objetivo principal es
+identificar a Mariana Barrera como asesora de autobuses Mercedes-Benz de Zapata
+Camiones, desde Texcoco de Mora, con atención en CDMX y Estado de México.
+Los datos de negocio y el contenido están centralizados en `src/lib/site.ts`.
 
-**Dominio de producción confirmado:** `https://marianabarrera.com` (ya dado de
-alta en Cloudflare). Ver la sección siguiente para cómo se usa.
+## Implementación
 
-## Contrato para la implementación
+- Título con el nombre completo al principio, descripción específica y nombre
+  consistente entre HTML, Open Graph y `WebSite`.
+- Un H1 de servicio y un H2 que identifica a Mariana. Perfil con su experiencia,
+  empleador, fotografía, contacto y zonas de atención. Enlace al perfil desde el pie.
+- HTML estático legible sin JavaScript. Las animaciones se añaden después de la
+  carga y nunca ocultan el contenido del servidor. La portada no espera animaciones.
+- Imagen principal responsive: 800 px en móvil, 1600 px en escritorio, carga
+  inmediata y prioridad alta. Las fotos alternativas de los carruseles se cargan
+  al interactuar; el primer ángulo siempre existe en el HTML.
+- Fuente Manrope local con precarga mediante `next/font/local`, sin consultar
+  Google Fonts ni esperar a descubrir la fuente dentro de otra hoja de estilos.
+- Canonical, sitemap, imágenes sociales e identificadores JSON-LD usan siempre
+  HTTPS y el dominio público. `NEXT_PUBLIC_SITE_URL` y `SITE_URL` ya no modifican
+  esa identidad: las copias de prueba no deben convertirse en la versión canónica.
+- `robots.txt` permite rastreo; la home permite indexación y vistas previas de
+  imágenes grandes. El sitemap incluye la home y sus fotografías reales, sin
+  prioridades artificiales ni fechas de modificación que cambien en cada build.
+- JSON-LD con `Person`, `Organization`, `WebSite`, `WebPage`, `Service`,
+  `ImageObject` y las FAQ que realmente se pueden leer. Las referencias entre
+  entidades se validan. No se inventan precios, stock, reseñas, calle ni horarios.
+- `public/_headers` configura caché inmutable para `/_next/static/*`, cuyos
+  nombres contienen hash, y `X-Robots-Tag: noindex` solo para hosts
+  `:worker.:account.workers.dev`. HTML y fotografías sin versión conservan la
+  revalidación predeterminada de Cloudflare. La copia de prueba debe permanecer
+  rastreable para que el buscador pueda leer ese `noindex`.
+- `npm run build` falla si el HTML exportado no supera `npm run seo:check`.
+  Esta revisión inspecciona los archivos finales de `out/`, no solo el código fuente.
 
-- H1 único: **Autobuses Mercedes-Benz** (coincide con `landingContent.hero.heading`).
-- El texto visible debe mencionar de forma natural transporte urbano, de
-  personal, escolar y turismo; las carrocerías Ayco Zafiro, Ayco Cosmopolitan,
-  Beccar, Urviabus y Marcopolo; las configuraciones de asientos en
-  `site.product`; y la configuración de accesibilidad en
-  `landingContent.accessibility`.
-- La zona principal es Ciudad de México, Estado de México y área metropolitana.
-  Hay oficinas en Texcoco de Mora, Estado de México. La frase de alcance debe
-  decir que se reciben consultas de toda la República Mexicana; no debe
-  prometer entrega, cobertura logística o disponibilidad nacional.
-- Usa `site.phoneDisplay`, `site.phoneHref`, `site.email` y
-  `createWhatsAppHref()` para que teléfono, correo y WhatsApp siempre sean
-  consistentes.
-- Las fotos deben llevar `alt` descriptivo y verdadero. La afirmación de
-  catálogo ("estas son las cinco carrocerías que puedes cotizar") vive
-  únicamente en las cinco píldoras de texto de `bodyworks`
-  (`site.product.bodyStyles`); las fotos de unidades reales que acompañan la
-  sección son material de referencia, no una lista de precios, y su `alt`
-  nombra solo lo que el emblema visible en esa foto dice (ver
-  `docs/ASSETS.md`, sección "Tabla de derivados" y "Nota de procedencia: Ayco
-  Zafiro GT" para el único archivo que no viene del material de la clienta,
-  con la advertencia de derechos de fabricante ya documentada ahí).
-- La accesibilidad se describe como una configuración que se puede consultar
-  (espacio señalizado para silla de ruedas con asiento abatible), no como una
-  rampa mecánica ni como equipamiento presente en todas las unidades. El
-  archivo `accesibilidad.webp` muestra el pictograma y el asiento, no un
-  mecanismo de rampa visible; el copy no debe afirmar "rampa".
-- `faqs` solo puede pasar a `getStructuredData({ includeFaq: true })` cuando las
-  mismas preguntas y respuestas están visibles en el HTML.
+El marcado de FAQ describe el contenido; no se promete un resultado enriquecido.
+Google limita esa presentación a sitios reconocidos de salud y gobierno. Tampoco
+se marca esta landing comercial como `ProfilePage`, `AutoDealer` o `Product`:
+esos tipos no representan la página y los datos disponibles.
 
-El copy evita precios, inventario, promociones, financiamiento, testimonios,
-ratings, años de experiencia y especificaciones que el cliente no confirmó. Los
-cinco blurbs de carrocería describen marca y contexto general (a qué fabricante
-corresponde el nombre), nunca motor, capacidad o dimensiones que la clienta no
-dio.
+## Activación en Google Search Console
 
-### Pendientes de decisión del equipo (no resueltos en este archivo)
+Estos pasos requieren acceso a la propiedad. El código no demuestra que la
+propiedad esté verificada ni que Google haya indexado la página.
 
-- `public/images/unidad-ayco-zafiro-gt.webp` existe en disco pero **no está
-  referenciado en `content.ts`**. Las dos únicas unidades "Zafiro GT"
-  encontradas están marcadas "VENDIDO" en todas sus fotos, y es un vehículo
-  tipo Sprinter, notablemente más chico que los coaches grandes del resto del
-  catálogo; presentarlo como el "Ayco Zafiro" del catálogo sin una leyenda
-  honesta ("unidad vendida, se muestra como referencia") sería engañoso.
-  Necesita una decisión del equipo/clienta antes de usarse.
-- `public/images/retrato-mariana.webp` existe en disco pero **no está
-  referenciado en `content.ts`**. Su procedencia y derechos de uso no están
-  confirmados (ver `docs/ASSETS.md`); no publicar hasta confirmar.
+1. Añadir la propiedad de dominio `marianabarrera.com` en
+   [Search Console](https://search.google.com/search-console).
+2. Copiar el registro TXT exacto que entregue Google a Cloudflare → DNS y
+   verificar la propiedad. No borrar otros TXT ni modificar correo/MX.
+3. En **Sitemaps**, enviar `https://marianabarrera.com/sitemap.xml`.
+4. En **Inspección de URLs**, inspeccionar `https://marianabarrera.com/` y usar
+   **Probar URL publicada**. Revisar acceso de Googlebot, indexación permitida,
+   captura renderizada y URL canónica seleccionada por Google si ya está indexada.
+5. Si la versión publicada es accesible, solicitar indexación una vez. Si aparece
+   un error, atender el motivo concreto del informe; repetir la solicitud no
+   acelera el rastreo.
+6. Después de la publicación, seguir indexación, impresiones y consultas reales,
+   en particular `Mariana Barrera`, `Mariana Barrera Zapata` y combinaciones de
+   servicio/localidad. La prueba `site:` es orientativa; Search Console ofrece
+   el diagnóstico de la URL.
 
-## URL de producción, canonical y Open Graph
+Alternativa para una propiedad de **prefijo de URL**: definir la variable de
+build `GOOGLE_SITE_VERIFICATION` con el contenido del token que entrega Google,
+reconstruir y verificar. La etiqueta se omite si no hay token. La verificación por
+DNS de una propiedad de dominio no necesita esa variable ni un cambio de código.
 
-`getSiteUrl()` ya no depende de que exista una variable de entorno: su valor
-por defecto es el dominio real de producción.
+## Cloudflare: configuración y verificación después de publicar
 
-```ts
-export const PRODUCTION_SITE_URL = "https://marianabarrera.com";
-```
+La auditoría pública del 18 de septiembre de 2026 encontró la home, robots y
+sitemap con HTTP 200; `www` redirigía al dominio principal. Sin embargo,
+`http://marianabarrera.com/` respondía 200 en vez de redirigir a HTTPS.
 
-`NEXT_PUBLIC_SITE_URL` (o `SITE_URL`, para hosts que no exponen variables
-públicas de Next.js) sigue existiendo, pero ahora es solo un override para
-despliegues de preview (por ejemplo, una rama en Cloudflare Pages/Workers):
+1. Activar **SSL/TLS → Edge Certificates → Always Use HTTPS**. La configuración
+   de `_headers` no sustituye este ajuste de la zona.
+2. Conservar la redirección permanente de `www` al dominio principal.
+3. Publicar `out/`, generado con `npm run build`, en el Worker configurado en
+   `wrangler.jsonc`. El build incluye `_headers`, robots y sitemap.
+4. Verificar HTTPS 200, HTTP→HTTPS, www→dominio principal, canonical y sitemap
+   nuevos, ausencia de `noindex` en producción y presencia en el host de prueba.
+5. Probar una ruta inexistente: debe devolver un 404 real, no la home con 200.
+6. Confirmar acceso con **Probar URL publicada** de Search Console. Una petición
+   que solo cambia su User-Agent a `Googlebot` no prueba acceso del robot real.
 
-```bash
-NEXT_PUBLIC_SITE_URL=https://preview-branch.marianabarrera.pages.dev
-```
+## Identidad y contenido fuera del repositorio
 
-Reglas de validación (sin cambios de fondo, solo el fallback cambió):
+- Enlazar el dominio desde las biografías reales de Facebook y TikTok, usando
+  el mismo nombre y actividad profesional.
+- Confirmar una URL permanente del perfil de Facebook: el enlace facilitado
+  actualmente es un enlace compartido; no se inventa un identificador de perfil.
+- Si Zapata tiene una ficha pública de asesores, incorporar allí el enlace al
+  sitio con autorización de la empresa.
+- Añadir páginas de servicio solo cuando exista contenido propio suficiente:
+  configuraciones confirmadas, fotos y respuestas a dudas reales. Repetir la
+  misma landing cambiando el nombre de una ciudad no aporta esa información.
 
-- Debe ser una URL absoluta con `http://` o `https://`; cualquier otro
-  protocolo se ignora y cae al dominio de producción.
-- Un hostname `localhost` / `127.0.0.1` / `0.0.0.0` / `::1` se ignora siempre
-  (no solo en `NODE_ENV=production`), para que un `.env` local mal copiado
-  nunca se filtre al canonical o al `og:image` de un build real.
-- Se limpia el trailing slash, el query string y el hash antes de usarla como
-  origen.
+## Evidencia y límites
 
-Con esto, **un `npm run build` sin ninguna variable de entorno ya produce
-`metadataBase`, `alternates.canonical`, Open Graph y Twitter completos**,
-apuntando a `https://marianabarrera.com`. `site.socialImagePath` es
-`/images/og.jpg`; el pipeline de assets debe escribir ahí la imagen 1200x630.
+Ver `docs/QA.md` para reproducir build, revisión del HTML, navegador y Lighthouse.
+Las métricas locales son mediciones de laboratorio; no equivalen a Core Web
+Vitals de visitantes reales, posiciones en Google ni indexación confirmada.
+El estado de publicación y las verificaciones de cuentas deben reportarse aparte.
 
-### Trailing slash: la forma canónica es con `/` final
+## Fuentes oficiales
 
-`next.config.ts` tiene `trailingSlash: true`, así que el export estático sirve
-cada ruta como `.../index.html` dentro de una carpeta con ese nombre. Para que
-el canonical, el sitemap y lo que el servidor realmente entrega coincidan
-siempre, `getCanonicalUrl()` normaliza toda ruta a la forma con `/` final:
-
-- Home: `https://marianabarrera.com/` (no `https://marianabarrera.com`).
-- Cualquier ruta futura: `https://marianabarrera.com/algo/`.
-
-Esto aplica solo a canonical y sitemap (URLs de **ruta**). Los assets
-(`site.socialImagePath`, imágenes de `content.photos`) nunca llevan slash
-final agregado, porque son archivos, no rutas: `getSiteMetadata()` resuelve
-`og:image` como `https://marianabarrera.com/images/og.jpg`, sin slash extra.
-
-La home debe usar esos metadatos desde el layout raíz. Mantén el title y la
-descripción en español, con una sola intención clara:
-
-```text
-Venta de autobuses Mercedes-Benz | Mariana Barrera
-```
-
-No añadas una lista de keywords repetidas al title o a la descripción. Google
-puede reescribir el title o el snippet; estos valores son señales útiles, no
-una garantía de cómo aparecerá el resultado.
-
-## Robots y sitemap
-
-`app/robots.ts` y `app/sitemap.ts` usan `getSiteUrl()` a través de
-`getSitemapUrl()` y `getSitemapEntries(['/'])`; ninguno necesitó cambios de
-implementación, porque ya consumían el contrato de `site.ts`. Con el dominio
-por defecto:
-
-- `robots.txt` permite `/` e incluye siempre `Sitemap: https://marianabarrera.com/sitemap.xml`.
-- `sitemap.xml` contiene la home en su forma canónica (`https://marianabarrera.com/`).
-
-Si algún día se agrega una ruta nueva, pásala a
-`getSitemapEntries(['/', '/nueva-ruta'])`; la normalización de trailing slash
-es automática.
-
-Después de publicar, verifica `https://marianabarrera.com/robots.txt`,
-`https://marianabarrera.com/sitemap.xml` y el canonical del HTML final.
-
-## JSON-LD
-
-`getStructuredData()` crea un grafo honesto de `Person`, `Organization`,
-`WebSite`, `WebPage` y `Service` en español de México. Relaciona a Mariana
-Barrera con Zapata Camiones mediante `worksFor` y registra la oficina solo a
-nivel de localidad (`Texcoco de Mora`, `Estado de México`); no agrega calle,
-número, coordenadas ni horarios no proporcionados.
-
-Con el dominio ya resuelto por defecto, **todos los `@id` y `url` del grafo son
-siempre absolutos** (antes, sin `NEXT_PUBLIC_SITE_URL`, caían a fragmentos
-relativos tipo `#person`). Ya no existe esa rama: `getCanonicalUrl()` nunca
-devuelve `undefined`, así que cada nodo usa
-`https://marianabarrera.com/#person`, `#organization`, `#website`, `#webpage`,
-`#service` y, si `includeFaq` está activo, `#faq`.
-
-El servicio identifica la venta y asesoría sobre autobuses Mercedes-Benz y sus
-áreas principales. No incluye `Offer`, precios, disponibilidad, ratings ni
-reseñas. El `FAQPage` es opcional y debe corresponder exactamente al contenido
-que una persona puede leer en la página.
-
-Inserta una sola etiqueta `application/ld+json` en el layout o página:
-
-```tsx
-<script
-  type="application/ld+json"
-  dangerouslySetInnerHTML={{
-    __html: JSON.stringify(getStructuredData({ includeFaq: true })),
-  }}
-/>
-```
-
-El ejemplo con `includeFaq: true` solo es correcto si la sección de preguntas
-se renderiza de forma visible. Valida el HTML final con el [Schema Markup
-Validator](https://validator.schema.org/) y, cuando el sitio esté publicado,
-con la [prueba de resultados enriquecidos de
-Google](https://search.google.com/test/rich-results). Una validación correcta
-no garantiza un resultado enriquecido ni posiciones concretas.
-
-## Estado verificado (build real, sin variables de entorno)
-
-Estos resultados se confirmaron con `grep` sobre una build de producción
-(`npm run build`, sin `NEXT_PUBLIC_SITE_URL` ni `SITE_URL`). La build se
-generó sobre una copia temporal del repo con dos líneas de `app/page.tsx`
-parcheadas al vuelo, únicamente porque ese archivo todavía consume nombres de
-`content.photos` anteriores al contrato nuevo (`interiorBlue`, `interiorOpen`,
-`seatDetail`) y un componente en paralelo (`components/MobileMenu.tsx`) ya
-pide `ctaLabel`/`ctaHref`; ninguno de esos archivos pertenece a este dominio y
-no se tocaron en el repo real. `src/lib/site.ts` y `src/lib/content.ts` (los
-archivos de este dominio) pasan `npm run typecheck` y `npm run lint` sin
-parches.
-
-| Verificación | Antes | Después |
-|-|-|-|
-| `<link rel="canonical">` | ausente | `https://marianabarrera.com/` |
-| `og:url` | ausente | `https://marianabarrera.com/` |
-| `og:image` | ausente | `https://marianabarrera.com/images/og.jpg` (absoluta) |
-| `twitter:image` | ausente | `https://marianabarrera.com/images/og.jpg` (absoluta) |
-| `application/ld+json` en el HTML | 1 etiqueta, ids relativos (`#person`, ...) | 1 etiqueta, ids absolutos (`https://marianabarrera.com/#person`, ...) |
-| `out/sitemap.xml` | `<urlset ...></urlset>` vacío | contiene `<loc>https://marianabarrera.com/</loc>` |
-| `out/robots.txt` | sin línea `Sitemap:` | `Sitemap: https://marianabarrera.com/sitemap.xml` |
-| FAQ visibles vs `FAQPage.mainEntity` | 4 y 4 | 5 y 5 (se agregó la de accesibilidad) |
-
-Con `NEXT_PUBLIC_SITE_URL=https://preview.marianabarrera.pages.dev/` se
-confirmó también el camino de override: canonical y sitemap usan ese dominio
-de preview, con el mismo trailing slash normalizado. Con un valor `localhost`
-en esa variable, `getSiteUrl()` lo descarta y regresa al dominio de
-producción.
-
-## Lista de verificación antes de publicar
-
-- [ ] El H1 aparece una sola vez y coincide con el title principal.
-- [ ] Todo el contenido importante está en HTML renderizado; las imágenes no
-      son el único lugar donde aparecen los términos de servicio.
-- [ ] Cada imagen tiene un `alt` verdadero, no un nombre de archivo ni una
-      cadena de keywords.
-- [ ] WhatsApp usa `https://wa.me/525550071752` y el botón lateral funciona en
-      móvil sin tapar el contenido.
-- [ ] Teléfono, correo, Facebook y TikTok enlazan a los datos proporcionados.
-- [ ] Si se define `NEXT_PUBLIC_SITE_URL`, es un dominio de preview real y no
-      `localhost`; en producción, simplemente no se define y el sitio usa
-      `https://marianabarrera.com` por defecto.
-- [ ] Canonical, Open Graph, `robots.txt` y sitemap usan ese mismo origen.
-- [ ] No hay datos inventados de precios, stock, cobertura, testimonios o
-      especificaciones.
-- [ ] Las cinco carrocerías en la sección `#carrocerias` tienen nombre real y
-      una línea de contexto, no captions genéricos.
-- [ ] Se revisan la home y el flujo de WhatsApp en un viewport móvil y uno
-      desktop.
-
-## Referencias oficiales
-
-- [Google Search Central: enlaces de título](https://developers.google.com/search/docs/appearance/title-link)
-- [Google Search Central: snippets y apariencia del sitio](https://developers.google.com/search/docs/appearance)
-- [Google Search Central: canonicalización](https://developers.google.com/search/docs/crawling-indexing/canonicalization)
-- [Google Search Central: crear y enviar un sitemap](https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap)
-- [Google Search Central: directrices generales para datos estructurados](https://developers.google.com/search/docs/appearance/structured-data/sd-policies)
-- [Schema.org: Person](https://schema.org/Person), [Organization](https://schema.org/Organization), [Service](https://schema.org/Service), [WebSite](https://schema.org/WebSite), [WebPage](https://schema.org/WebPage) y [FAQPage](https://schema.org/FAQPage)
+- [Títulos en Google](https://developers.google.com/search/docs/appearance/title-link)
+- [Nombre del sitio](https://developers.google.com/search/docs/appearance/site-names)
+- [Sitemap de imágenes](https://developers.google.com/search/docs/crawling-indexing/sitemaps/image-sitemaps)
+- [Directrices de datos estructurados](https://developers.google.com/search/docs/appearance/structured-data/sd-policies)
+- [FAQ y elegibilidad](https://developers.google.com/search/docs/appearance/structured-data/faqpage)
+- [Inspección de URLs](https://support.google.com/webmasters/answer/9012289?hl=es)
+- [Solicitar rastreo](https://developers.google.com/search/docs/crawling-indexing/ask-google-to-recrawl?hl=es)
+- [Headers de Workers](https://developers.cloudflare.com/workers/static-assets/headers/)
+- [Always Use HTTPS](https://developers.cloudflare.com/ssl/edge-certificates/additional-options/always-use-https/)

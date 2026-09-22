@@ -1,0 +1,9 @@
+# Only fingerprinted assets can be cached immutably. HTML, sitemap and
+# unversioned photos retain Cloudflare's default revalidation behavior.
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# The same build can be previewed without indexing the workers.dev copy.
+# Do not put noindex in a global /* rule: production must remain indexable.
+https://:worker.:account.workers.dev/*
+  X-Robots-Tag: noindex

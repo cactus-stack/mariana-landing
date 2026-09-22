@@ -5,6 +5,7 @@ export default defineConfig([
   ...nextVitals,
   globalIgnores([
     ".next/**",
+    ".wrangler/**",
     "out/**",
     "node_modules/**",
     "next-env.d.ts",

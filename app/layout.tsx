@@ -1,7 +1,14 @@
 import type { Metadata, Viewport } from "next";
-import "@fontsource-variable/manrope/wght.css";
+import localFont from "next/font/local";
 import "./globals.css";
 import { getSiteMetadata } from "@/src/lib/site";
+
+const manrope = localFont({
+  src: "../node_modules/@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2",
+  weight: "200 800",
+  display: "swap",
+  variable: "--font-manrope",
+});
 
 export const metadata: Metadata = getSiteMetadata();
 
@@ -21,7 +28,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es-MX">
+    <html lang="es-MX" className={manrope.variable}>
       <body>{children}</body>
     </html>
   );

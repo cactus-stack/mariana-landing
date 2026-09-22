@@ -70,7 +70,7 @@ async function run() {
     );
     const audits = Object.fromEntries(
       Object.entries(lhr.audits ?? {})
-        .filter(([, audit]) => ["error", "fail", "warn"].includes(audit.scoreDisplayMode) || audit.score < 1)
+        .filter(([, audit]) => ["error", "fail", "warn"].includes(audit.scoreDisplayMode) || (typeof audit.score === "number" && audit.score < 1))
         .map(([id, audit]) => [id, {
           title: audit.title,
           score: audit.score,
@@ -99,6 +99,7 @@ async function run() {
     fs.mkdirSync(outputDir, { recursive: true });
     const reportPath = path.join(outputDir, "lighthouse-mobile.json");
     fs.writeFileSync(reportPath, `${JSON.stringify(report, null, 2)}\n`);
+    fs.writeFileSync(path.join(outputDir, "lighthouse-mobile-full.json"), JSON.stringify(lhr));
     console.log(`Lighthouse report: ${reportPath}`);
     console.log(JSON.stringify({ categories, metrics }, null, 2));
   } finally {

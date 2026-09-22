@@ -4,11 +4,12 @@ import { List, X } from "@phosphor-icons/react";
 import { useEffect, useRef, useState } from "react";
 
 type MobileMenuProps = {
+  links: readonly { href: string; label: string }[];
   ctaLabel: string;
   ctaHref: string;
 };
 
-export function MobileMenu({ ctaLabel, ctaHref }: MobileMenuProps) {
+export function MobileMenu({ links, ctaLabel, ctaHref }: MobileMenuProps) {
   const [open, setOpen] = useState(false);
   const toggleRef = useRef<HTMLButtonElement>(null);
 
@@ -45,18 +46,11 @@ export function MobileMenu({ ctaLabel, ctaHref }: MobileMenuProps) {
       {open ? (
         <div id="mobile-navigation" className="mobile-nav">
           <nav className="mobile-nav-inner" aria-label="Navegación móvil">
-            <a href="#opciones" onClick={closeMenu}>
-              Opciones
-            </a>
-            <a href="#carrocerias" onClick={closeMenu}>
-              Carrocerías
-            </a>
-            <a href="#asientos" onClick={closeMenu}>
-              Asientos
-            </a>
-            <a href="#asesoria" onClick={closeMenu}>
-              Asesoría
-            </a>
+            {links.map((link) => (
+              <a key={link.href} href={link.href} onClick={closeMenu}>
+                {link.label}
+              </a>
+            ))}
             <a href={ctaHref} target="_blank" rel="noreferrer" onClick={closeMenu}>
               {ctaLabel}
             </a>

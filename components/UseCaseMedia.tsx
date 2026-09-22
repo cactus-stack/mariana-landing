@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useReducedMotion } from "motion/react";
 
 export type UseCaseMediaItem = {
   src: string;
@@ -28,8 +27,8 @@ const ADVANCE_MS = 1400;
  */
 export function UseCaseMedia({ images, label }: UseCaseMediaProps) {
   const [index, setIndex] = useState(0);
+  const [loadAlternates, setLoadAlternates] = useState(false);
   const timer = useRef<ReturnType<typeof setInterval> | null>(null);
-  const reduce = useReducedMotion();
 
   const stop = useCallback(() => {
     if (timer.current) {
@@ -39,15 +38,24 @@ export function UseCaseMedia({ images, label }: UseCaseMediaProps) {
   }, []);
 
   const start = useCallback(() => {
-    if (reduce || images.length < 2 || timer.current) return;
+    setLoadAlternates(true);
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || images.length < 2 || timer.current) return;
     timer.current = setInterval(() => {
       setIndex((current) => (current + 1) % images.length);
     }, ADVANCE_MS);
-  }, [images.length, reduce]);
+  }, [images.length]);
 
-  // An interval that outlives the component would keep setting state on an
-  // unmounted tree, so it is always torn down.
-  useEffect(() => stop, [stop]);
+  useEffect(() => {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const stopWhenReduced = () => {
+      if (reducedMotion.matches) stop();
+    };
+    reducedMotion.addEventListener("change", stopWhenReduced);
+    return () => {
+      stop();
+      reducedMotion.removeEventListener("change", stopWhenReduced);
+    };
+  }, [stop]);
 
   const handleLeave = useCallback(() => {
     stop();
@@ -61,17 +69,17 @@ export function UseCaseMedia({ images, label }: UseCaseMediaProps) {
         onMouseEnter={start}
         onMouseLeave={handleLeave}
       >
-        {images.map((image, i) => (
+        {images.map((image, i) => (i === 0 || loadAlternates) ? (
           <Image
             key={image.src}
             className={i === index ? "is-active" : undefined}
             src={image.src}
-            alt={i === 0 ? image.alt : ""}
-            aria-hidden={i === 0 ? undefined : true}
+            alt={i === index ? image.alt : ""}
+            aria-hidden={i === index ? undefined : true}
             fill
             sizes="(max-width: 620px) 100vw, 58vw"
           />
-        ))}
+        ) : null)}
       </div>
       {images.length > 1 ? (
         <div className="use-dots" role="group" aria-label={`Fotos de ${label.toLowerCase()}`}>
@@ -84,6 +92,7 @@ export function UseCaseMedia({ images, label }: UseCaseMediaProps) {
               aria-current={i === index}
               onClick={() => {
                 stop();
+                setLoadAlternates(true);
                 setIndex(i);
               }}
             />

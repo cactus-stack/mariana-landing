@@ -29,10 +29,7 @@ const toolingDir = path.resolve(
 );
 const screenshotsEnabled = !process.argv.includes("--no-screenshots");
 const interactionEnabled = !process.argv.includes("--no-interactions");
-const expectedProductionOrigin = process.env.QA_EXPECT_SITE_URL?.replace(
-  /\/$/u,
-  "",
-);
+const expectedProductionOrigin = "https://marianabarrera.com";
 const chromeExecutable =
   process.env.QA_CHROME_EXECUTABLE ??
   "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
@@ -57,8 +54,8 @@ const expected = {
   email: "nbarrera@zapata.com.mx",
   whatsappNumber: "525550071752",
   facebook: "https://www.facebook.com/share/14rqv3bSemJ/?mibextid=wwXIfr",
-  tiktok: "https://www.tiktok.com/@marianazapatacam1?_r=1&_t=ZS-99lQY9ak6mV",
-  whatsappText: "Hola Mariana, me interesa conocer opciones de autobuses Mercedes-Benz.",
+  tiktok: "https://www.tiktok.com/@marianazapatacam1",
+  whatsappText: "Hola Mariana, quiero cotizar un autobús Mercedes-Benz. ¿Me puedes orientar?",
 };
 
 const report = {
@@ -121,6 +118,28 @@ function maybeAbsoluteHref(href) {
 
 async function inspectPage(page, viewport, mode) {
   await page.waitForLoadState("domcontentloaded");
+  // Trigger native lazy loading by scrolling, then return for screenshots.
+  // Initial-load performance is measured separately with Lighthouse.
+  await page.evaluate(async () => {
+    const scroll = document.documentElement;
+    scroll.style.scrollBehavior = "auto";
+    for (let y = 0; y < scroll.scrollHeight; y += window.innerHeight * 0.8) {
+      window.scrollTo(0, y);
+      await new Promise((resolve) => setTimeout(resolve, 80));
+    }
+  });
+  // Horizontal galleries have lazy images outside the horizontal viewport.
+  // Reach each image as a visitor would before asserting that it loads.
+  for (const image of await page.locator("img[loading='lazy']").all()) {
+    await image.scrollIntoViewIfNeeded();
+  }
+  await page.evaluate(async () => {
+    const scroll = document.documentElement;
+    for (const gallery of document.querySelectorAll(".bodywork-track")) gallery.scrollLeft = 0;
+    window.scrollTo(0, 0);
+    scroll.style.removeProperty("scroll-behavior");
+    await new Promise((resolve) => setTimeout(resolve, 850));
+  });
   await page
     .waitForFunction(
       () => Array.from(document.images).every((image) => image.complete),
@@ -225,7 +244,7 @@ async function inspectPage(page, viewport, mode) {
       htmlFont: htmlStyle.fontFamily,
       fonts,
       fontFaces,
-      manropeCheck: document.fonts?.check('16px "Manrope"') ?? false,
+      manropeCheck: document.fonts?.check(`16px ${bodyStyle.fontFamily.split(",")[0]}`) ?? false,
       scrollWidth: document.documentElement.scrollWidth,
       innerWidth: window.innerWidth,
       scrollHeight: document.documentElement.scrollHeight,
@@ -289,9 +308,9 @@ async function inspectPage(page, viewport, mode) {
   );
   addCheck(
     `${viewport.name}/${mode.name}: imágenes con alt`,
-    data.images.every((image) => image.alt?.trim()),
+    data.images.every((image) => image.alt !== null),
     data.images
-      .filter((image) => !image.alt?.trim())
+      .filter((image) => image.alt === null)
       .map((image) => image.src)
       .join(", "),
   );
@@ -336,11 +355,11 @@ async function inspectPage(page, viewport, mode) {
     "warning",
   );
   const exactFontFamily = data.fontFaces.some(
-    (font) => font.family.replace(/["']/gu, "").trim() === "Manrope" && font.status === "loaded",
+    (font) => /manrope/i.test(font.family) && !/fallback/i.test(font.family) && font.status === "loaded",
   );
   addCheck(
     `${viewport.name}/${mode.name}: fuente Manrope coincide con CSS y está cargada`,
-    /(^|,\s*)["']?Manrope["']?(,|$)/u.test(data.bodyFont) &&
+    /manrope/i.test(data.bodyFont) &&
       exactFontFamily &&
       data.manropeCheck,
     `body=${data.bodyFont}, manropeCheck=${data.manropeCheck}, families=${data.fontFaces.map((font) => `${font.family}:${font.status}`).join(" | ")}`,
@@ -348,7 +367,7 @@ async function inspectPage(page, viewport, mode) {
   );
   addCheck(
     `${viewport.name}/${mode.name}: no cae en fuente Times/serif predeterminada`,
-    !/(Times|serif)/iu.test(`${data.bodyFont} ${data.htmlFont}`),
+    !/(Times|^serif$)/iu.test(data.bodyFont),
     `body=${data.bodyFont}, html=${data.htmlFont}`,
     "warning",
   );
@@ -407,13 +426,6 @@ async function inspectPage(page, viewport, mode) {
       data.ogUrl === expectedCanonical &&
         data.socialMeta.image.startsWith(expectedProductionOrigin),
       `og:url=${data.ogUrl}, og:image=${data.socialMeta.image}`,
-    );
-  } else {
-    addCheck(
-      `${viewport.name}/${mode.name}: canonical omitido sin origen configurado`,
-      !data.canonical && !data.ogUrl,
-      `canonical=${data.canonical || "ausente"}, og:url=${data.ogUrl || "ausente"}`,
-      "warning",
     );
   }
 
@@ -753,14 +765,29 @@ async function inspectForms(page, viewport) {
         await useCaseField.selectOption({ index: 1 });
       }
       await detailsField.fill("Necesito revisar una unidad para transporte de personal.");
+      // The form opens WhatsApp itself. Record the URL instead of letting the
+      // browser leave for an external composer.
+      await page.evaluate(() => {
+        window.__qaOpened = [];
+        window.open = (url) => {
+          window.__qaOpened.push(String(url));
+          return null;
+        };
+      });
       await submit.click();
+      const openedUrls = await page.evaluate(() => window.__qaOpened ?? []);
+      addInteraction(
+        `${viewport.name}: consulta válida abre WhatsApp en el mismo clic`,
+        openedUrls.length === 1 && openedUrls[0].startsWith(`https://wa.me/${expected.whatsappNumber}`),
+        `opened=${openedUrls.join(", ")}`,
+      );
       const result = form.locator('[role="status"]');
       const resultLink = result.locator('a[href^="https://wa.me/"]');
       const resultHref = (await resultLink.count()) ? (await resultLink.getAttribute("href")) || "" : "";
       const resultUrl = maybeAbsoluteHref(resultHref);
       const resultMessage = resultUrl?.searchParams.get("text") || "";
       addInteraction(
-        `${viewport.name}: consulta válida prepara WhatsApp localmente`,
+        `${viewport.name}: consulta válida deja enlace de respaldo`,
         (await result.count()) > 0 &&
           (await result.isVisible()) &&
           resultHref.startsWith(`https://wa.me/${expected.whatsappNumber}`) &&
@@ -867,6 +894,9 @@ async function run() {
       faqCount: document.querySelectorAll("details summary").length,
       ctaCount: document.querySelectorAll('a[href^="https://wa.me/"], a[href^="tel:"], a[href^="mailto:"]').length,
       visibleFaqText: document.querySelector("#preguntas")?.textContent?.trim().length || 0,
+      hiddenContent: [...document.querySelectorAll("main, main *")].filter((element) =>
+        getComputedStyle(element).opacity === "0" && element.textContent?.trim(),
+      ).map((element) => element.className),
     }));
     addCheck(
       "sin JavaScript: HTML base conserva H1, contenido, FAQ y CTAs",
@@ -874,7 +904,8 @@ async function run() {
         noJsData.bodyTextLength > 500 &&
         noJsData.faqCount >= 4 &&
         noJsData.ctaCount >= 3 &&
-        noJsData.visibleFaqText > 100,
+        noJsData.visibleFaqText > 100 &&
+        noJsData.hiddenContent.length === 0,
       JSON.stringify(noJsData),
     );
     if (screenshotsEnabled) {

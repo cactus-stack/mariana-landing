@@ -25,18 +25,19 @@ distinta, se puede cambiar con `QA_TOOLING_DIR`; no se escribe en este proyecto.
 
 ## Ejecutar comprobaciones fuente y build
 
-Primero ejecuta el chequeo estático, y luego coordina con implementation para
-que no haya otro build corriendo:
+Ejecuta las revisiones de código y genera la exportación. El build ejecuta
+automáticamente `seo:check` sobre el HTML y los assets finales:
 
 ```bash
-QA_OUTPUT_DIR=/private/tmp/mariana-qa/evidence \
-  QA_TOOLING_DIR=/private/tmp/mariana-qa \
-  node scripts/qa-static.mjs
-
 npm run typecheck
 npm run lint
-npm run build
+QA_OUTPUT_DIR=/private/tmp/mariana-qa/evidence npm run build
 ```
+
+`npm run seo:check` permite repetir la revisión sobre `out/` sin reconstruir.
+No instala herramientas ni usa la red. Comprueba canonical, rastreabilidad,
+metadatos, identidad, enlaces internos, JSON-LD, coherencia de FAQ, imágenes,
+sitemap, 404 y el archivo de headers de Cloudflare.
 
 Este proyecto usa `output: "export"`. La salida que debe medirse es `out/`.
 `next start` no sirve la exportación estática; sirve `out/` con un servidor
@@ -65,19 +66,28 @@ completa en claro, oscuro y `prefers-reduced-motion`; y escribe:
 
 También comprueba overflow horizontal, imágenes completas y `alt`, fuente
 cargada, title/description/H1, ausencia de em dash, no URLs localhost,
-canonical y Open Graph cuando se proporciona `QA_EXPECT_SITE_URL`, JSON-LD y
+canonical y Open Graph del dominio de producción, JSON-LD y
 FAQ visible, teléfono, correo, WhatsApp, Facebook y TikTok. En el formulario de
-consulta prueba el estado vacío, prepara un href de WhatsApp en memoria con
-nombre, uso y detalle, y comprueba que editar un campo reinicia ese estado. No
-hace clic en el enlace final de WhatsApp ni abre un compositor externo.
+consulta prueba el estado vacío; con nombre, uso y detalle comprueba que el envío
+abre WhatsApp en el mismo clic (el script reemplaza `window.open` para registrar la
+URL sin salir a un compositor externo), que queda un enlace de respaldo por si el
+navegador bloquea la pestaña, y que editar un campo reinicia ese estado.
 
-Para probar el fallback sin dominio, ejecuta la build sin `SITE_URL` ni
-`NEXT_PUBLIC_SITE_URL` y deja `QA_EXPECT_SITE_URL` vacío. El HTML debe omitir
-canonical y `og:url`, nunca sustituirlos por localhost. Para probar el helper
-con un dominio reservado, haz una build temporal con
-`NEXT_PUBLIC_SITE_URL=https://example.com`, ejecuta el runtime con
-`QA_EXPECT_SITE_URL=https://example.com`, y no dejes esa variable en la
-configuración de publicación.
+La identidad canónica permanece en `https://marianabarrera.com/` incluso si
+el entorno contiene `SITE_URL` o `NEXT_PUBLIC_SITE_URL` de un preview. Para
+comprobar esta protección se puede ejecutar:
+
+```bash
+NEXT_PUBLIC_SITE_URL=https://preview.example.invalid \
+SITE_URL=http://localhost:3000 npm run build
+```
+
+El navegador recorre la página para activar las imágenes diferidas y vuelve
+al inicio antes de capturar. También visita sin JavaScript y comprueba que
+el contenido no quede oculto por las animaciones. Un `alt=""` es válido para
+imágenes decorativas como el logo que está dentro de un enlace con nombre accesible.
+El servidor Python no aplica `_headers`: esa configuración se verifica con el
+runtime de Cloudflare o después de publicar, sin confundirla con QA de HTML.
 
 ## Lighthouse móvil
 

@@ -2,6 +2,7 @@
 
 import { ArrowUpRight, CheckCircle, WarningCircle } from "@phosphor-icons/react";
 import { FormEvent, useState } from "react";
+import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { createWhatsAppHref, site } from "@/src/lib/site";
 
 type FormValues = {
@@ -44,7 +45,13 @@ export function InquiryForm() {
       `Esta es mi consulta: ${details}`,
     ].join("\n");
 
-    setWhatsappHref(createWhatsAppHref(message));
+    const href = createWhatsAppHref(message);
+    // Open inside the submit handler so the browser treats it as a user
+    // gesture. The status block below doubles as a fallback link when a popup
+    // blocker swallows the new tab.
+    const whatsappWindow = window.open(href, "_blank");
+    if (whatsappWindow) whatsappWindow.opener = null;
+    setWhatsappHref(href);
   };
 
   return (
@@ -93,7 +100,7 @@ export function InquiryForm() {
         />
       </div>
       <p className="form-helper">
-        Prepararemos un mensaje para WhatsApp. Tú decides cuándo enviarlo.
+        Se abrirá WhatsApp con tu mensaje listo. Tú decides cuándo enviarlo.
       </p>
       {error ? (
         <p className="form-error" role="alert">
@@ -104,15 +111,15 @@ export function InquiryForm() {
       {whatsappHref ? (
         <div className="form-success" role="status">
           <CheckCircle size={22} weight="fill" color="var(--accent-strong)" aria-hidden="true" />
-          <strong>Tu consulta está lista para WhatsApp.</strong>
-          <span>Revisa el mensaje y envíalo cuando quieras.</span>
+          <strong>Tu mensaje quedó listo en WhatsApp.</strong>
+          <span>Si no se abrió, usa este enlace.</span>
           <a href={whatsappHref} target="_blank" rel="noreferrer">
             Abrir WhatsApp <ArrowUpRight size={15} weight="bold" aria-hidden="true" />
           </a>
         </div>
       ) : (
         <button type="submit" className="button-primary form-submit">
-          Preparar mi consulta <ArrowUpRight size={17} weight="bold" aria-hidden="true" />
+          Enviar por WhatsApp <WhatsAppIcon size={18} />
         </button>
       )}
     </form>

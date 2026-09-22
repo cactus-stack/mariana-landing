@@ -7,28 +7,13 @@ export const email = site.email;
 export const socialLinks = site.socials;
 export const whatsappBase = `https://wa.me/${site.whatsappNumber}`;
 
-// NOTE: there is no dedicated photo per confirmed bodywork (Ayco Zafiro,
-// Ayco Cosmopolitan, Beccar, Urviabus, Marcopolo). Forcing a specific photo
-// onto a bodywork name we cannot verify on that unit is dishonest, so the
-// asset pipeline replaced that approach with a gallery of real, emblem
-// verified units (see docs/ASSETS.md, "Tabla de derivados"). `bodyworks`
-// below lists the five confirmed names as text; `unitGallery` carries the
-// real photos, each one named for what its own emblem actually reads.
-//
-// DO NOT re-add per-bodywork images here without checking with team-lead
-// first (see mariana-content/team-lead thread): this file has been
-// overwritten multiple times with a 6-item version that (a) shows
-// unidad-ayco-zafiro-gt.webp, the only two "Zafiro GT" units found, both
-// marked "VENDIDO" in every available photo, as if it were the client's
-// "Ayco Zafiro" catalog entry (it is also a smaller Sprinter-chassis vehicle,
-// not the coach-type unit a buyer would expect from that name), and
-// (b) adds "Ayco Sigma OF" as a sixth sales item, which mariana-assets
-// confirmed is a real emblem on a real photo but NOT a bodywork the client
-// has confirmed she sells. Both are pending decisions for team-lead / the
-// client, not something to resolve by editing this file.
-//
-// retrato-mariana.webp is also intentionally not wired in: provenance and
-// usage rights are unconfirmed per docs/ASSETS.md.
+// Photo policy (see docs/ASSETS.md): every unit photo is named after the
+// emblem that is legible in that photo, and the gallery only shows units of a
+// bodywork the client confirmed she sells (site.product.bodyStyles). Ayco
+// Zafiro stays text-only: the only real Zafiro GT units found were marked
+// "VENDIDO", and the catalogue render that was used instead has no confirmed
+// source. Ayco Sigma OF is a real unit but not a confirmed sales item, so it is
+// not shown either. Confirm with the client before adding either one back.
 export const photos = {
   hero: "/images/hero-1600.webp",
   heroSmall: "/images/hero-800.webp",
@@ -36,26 +21,22 @@ export const photos = {
   usoUrbano2: "/images/uso-urbano-2.webp",
   usoUrbano3: "/images/uso-urbano-3.webp",
   usoPersonal1: "/images/uso-personal-1.webp",
-  usoPersonal2: "/images/uso-personal-2.webp",
   usoPersonal3: "/images/uso-personal-3.webp",
   usoEscolar1: "/images/uso-escolar-1.webp",
   usoEscolar2: "/images/uso-escolar-2.webp",
-  usoEscolar3: "/images/uso-escolar-3.webp",
   usoTurismo1: "/images/uso-turismo-1.webp",
   usoTurismo2: "/images/uso-turismo-2.webp",
   usoTurismo3: "/images/uso-turismo-3.webp",
-  unidadAycoZafiroGt: "/images/unidad-ayco-zafiro-gt.webp",
   unidadToreto: "/images/unidad-toreto.webp",
   unidadAycoCosmopolitan: "/images/unidad-ayco-cosmopolitan.webp",
   unidadBeccar: "/images/unidad-beccar.webp",
   unidadUrviabusMt: "/images/unidad-urviabus-mt.webp",
   unidadMarcopoloTorino: "/images/unidad-marcopolo-torino.webp",
-  unidadAycoSigmaOf: "/images/unidad-ayco-sigma-of.webp",
   interiorTela: "/images/interior-tela.webp",
   interiorPlastico: "/images/interior-plastico.webp",
   interiorReclinable: "/images/interior-reclinable.webp",
   accesibilidad: "/images/accesibilidad.webp",
-  retratoMariana: "/images/retrato-mariana.webp",
+  retratoMariana: site.portraitImagePath,
   logo: "/images/logo.webp",
 } as const;
 
@@ -85,10 +66,6 @@ const useMedia: Record<string, readonly { src: string; alt: string }[]> = {
       alt: "Autobús Mercedes-Benz AYCO Cosmopolitan blanco, completo, de tres cuartos frontal.",
     },
     {
-      src: photos.usoPersonal2,
-      alt: "La misma unidad AYCO blanca, vista trasera completa.",
-    },
-    {
       src: photos.usoPersonal3,
       alt: "Interior de la misma unidad, con asientos de plástico duro gris y azul y pasillo central.",
     },
@@ -96,15 +73,11 @@ const useMedia: Record<string, readonly { src: string; alt: string }[]> = {
   escolar: [
     {
       src: photos.usoEscolar1,
-      alt: "Autobús Mercedes-Benz AYCO Sigma OF azul, completo, de tres cuartos frontal.",
+      alt: "Autobús Mercedes-Benz blanco con carrocería Toreto, completo, de tres cuartos frontal en sala de exhibición.",
     },
     {
       src: photos.usoEscolar2,
-      alt: "La misma unidad azul, vista de tres cuartos trasero.",
-    },
-    {
-      src: photos.usoEscolar3,
-      alt: "Acceso de la misma unidad, con la puerta abierta y los escalones a la vista.",
+      alt: "Acceso de la misma unidad Toreto, con la puerta abierta, escalones y pasamanos.",
     },
   ],
   turismo: [
@@ -133,18 +106,10 @@ export const uses: readonly {
   images: useMedia[useCase.id],
 }));
 
-// The five bodyworks the client actually sells, as confirmed text. No photo
-// is attached per item; see the note above `photos` for why.
-// Gallery of units. Every name is read off an emblem visible in the photo.
-// The five bodyworks the client sells are listed separately as text from
-// site.product.bodyStyles, so this gallery never doubles as a sales catalogue.
+// Gallery of real units, one per confirmed bodywork that has a usable photo.
+// The full list of bodyworks lives in site.product.bodyStyles and is rendered
+// as text, so a bodywork without a photo is still listed.
 export const bodyworks = [
-  {
-    name: "Ayco Zafiro GT",
-    blurb: "Carrocería Ayco Zafiro GT para transporte urbano, sobre chasis Mercedes-Benz.",
-    image: photos.unidadAycoZafiroGt,
-    alt: "Autobús urbano blanco con carrocería Ayco Zafiro GT, completo y de tres cuartos frontal.",
-  },
   {
     name: "Toreto",
     blurb: "Carrocería Toreto sobre chasis Mercedes-Benz, una de las más vendidas.",
@@ -153,9 +118,9 @@ export const bodyworks = [
   },
   {
     name: "Ayco Cosmopolitan",
-    blurb: "Unidad blanca de piso alto, con puerta de servicio y escalón retráctil.",
+    blurb: "Carrocería Ayco Cosmopolitan de piso alto, sobre chasis Mercedes-Benz.",
     image: photos.unidadAycoCosmopolitan,
-    alt: "Autobús Mercedes-Benz blanco con carrocería Ayco Cosmopolitan, completo y de tres cuartos.",
+    alt: "Autobús Mercedes-Benz blanco con carrocería Ayco Cosmopolitan, completo y de tres cuartos frontal, frente a la agencia Zapata.",
   },
   {
     name: "Beccar",
@@ -174,12 +139,6 @@ export const bodyworks = [
     blurb: "Marcopolo Torino en configuración urbana, carrocería larga de piso alto.",
     image: photos.unidadMarcopoloTorino,
     alt: "Autobús Marcopolo Torino morado, completo y de tres cuartos frontal.",
-  },
-  {
-    name: "Ayco Sigma OF",
-    blurb: "Variante Ayco Sigma OF en azul, otra carrocería montada sobre chasis Mercedes-Benz.",
-    image: photos.unidadAycoSigmaOf,
-    alt: "Autobús Mercedes-Benz azul con carrocería Ayco Sigma OF, completo y de tres cuartos frontal.",
   },
 ] as const;
 

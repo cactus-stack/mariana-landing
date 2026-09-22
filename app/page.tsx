@@ -26,6 +26,14 @@ import {
   site,
 } from "@/src/lib/site";
 
+const navLinks = [
+  { href: "#opciones", label: "Servicios" },
+  { href: "#carrocerias", label: "Carrocerías" },
+  { href: "#asientos", label: "Asientos" },
+  { href: "#mariana-barrera", label: "Sobre mí" },
+  { href: "#contacto", label: "Contacto" },
+] as const;
+
 // Server Component: the page itself renders no client hooks. Motion and
 // stateful interactivity live in isolated "use client" leaves (Reveal,
 // MobileMenu, InquiryForm) per the RSC-safety rule.
@@ -39,7 +47,7 @@ export default function Home() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }}
       />
       <a className="skip-link" href="#contenido">
         Ir al contenido
@@ -53,27 +61,31 @@ export default function Home() {
               alt=""
               width={761}
               height={240}
-              priority
+              loading="eager"
             />
           </a>
           <nav className="desktop-nav" aria-label="Navegación principal">
-            <a href="#opciones">Opciones</a>
-            <a href="#carrocerias">Carrocerías</a>
-            <a href="#asientos">Asientos</a>
-            <a href="#asesoria">Asesoría</a>
+            {navLinks.map((link) => (
+              <a key={link.href} href={link.href}>
+                {link.label}
+              </a>
+            ))}
           </nav>
           <a className="nav-action" href={whatsappHref} target="_blank" rel="noreferrer">
             {landingContent.hero.primaryCta} <ArrowUpRight size={16} weight="bold" aria-hidden="true" />
           </a>
-          <MobileMenu ctaLabel={landingContent.hero.primaryCta} ctaHref={whatsappHref} />
+          <MobileMenu links={navLinks} ctaLabel={landingContent.hero.primaryCta} ctaHref={whatsappHref} />
         </div>
       </header>
 
       <main id="contenido" className="page-main">
         <section id="inicio" className="container hero" aria-labelledby="hero-heading">
-          <Reveal className="hero-copy">
+          <div className="hero-copy">
             <span className="eyebrow">{landingContent.hero.eyebrow}</span>
-            <h1 id="hero-heading">{landingContent.hero.heading}</h1>
+            <h1 id="hero-heading">
+              <span className="hero-h1-lead">{landingContent.hero.headingLead}</span>{" "}
+              {landingContent.hero.headingMain}
+            </h1>
             <p className="hero-lead">{landingContent.hero.body}</p>
             <div className="hero-actions">
               <a className="button-primary" href={whatsappHref} target="_blank" rel="noreferrer">
@@ -83,41 +95,51 @@ export default function Home() {
                 {landingContent.hero.secondaryCta} <CaretRight size={17} weight="bold" aria-hidden="true" />
               </a>
             </div>
-          </Reveal>
-          <Reveal className="hero-visual" delay={0.12}>
+            <p className="hero-location">
+              <MapPin size={16} weight="bold" aria-hidden="true" />
+              {landingContent.hero.location}
+            </p>
+          </div>
+          <div className="hero-visual">
             <figure>
               <div className="hero-frame">
-                <Image
-                  src={photos.hero}
-                  alt="Autobús Mercedes-Benz visto de frente, unidad completa en exterior."
-                  fill
-                  priority
-                  sizes="(max-width: 820px) 100vw, 58vw"
-                />
+                <picture>
+                  <source media="(max-width: 820px)" srcSet={photos.heroSmall} />
+                  <Image
+                    src={photos.hero}
+                    alt="Autobús Mercedes-Benz visto de frente, unidad completa en exterior."
+                    fill
+                    loading="eager"
+                    fetchPriority="high"
+                    sizes="(max-width: 820px) 100vw, 58vw"
+                  />
+                </picture>
               </div>
-              <figcaption className="image-note">
-                <span>
-                  <strong>Mercedes-Benz</strong>
-                  <br />
-                  {landingContent.hero.location}
+              <figcaption className="hero-agent">
+                <span className="hero-agent-photo">
+                  <Image src={photos.retratoMariana} alt="" width={112} height={112} loading="eager" />
+                </span>
+                <span className="hero-agent-copy">
+                  <strong>{site.personName}</strong>
+                  <span>Asesora de ventas · +15 años</span>
                 </span>
               </figcaption>
             </figure>
-          </Reveal>
+          </div>
         </section>
 
         <div className="container proof-bar" aria-label="Datos de la asesoría">
           <div className="proof-item">
-            <strong>{site.product.brand}</strong>
-            <span>Una marca para consultar tu proyecto de transporte.</span>
+            <strong>+15 años de experiencia</strong>
+            <span>Acompañando compras de autobuses para rutas, empresas, escuelas y turismo.</span>
           </div>
           <div className="proof-item">
-            <strong>{site.product.bodyStyles.length} carrocerías</strong>
-            <span>Ayco, Toreto, Beccar, Urviabus y Marcopolo para revisar contigo.</span>
+            <strong>{site.product.bodyStyles.length} carrocerías {site.product.brand}</strong>
+            <span>Ayco, Toreto, Beccar, Urviabus y Marcopolo para comparar contigo.</span>
           </div>
           <div className="proof-item">
-            <strong>Atención cercana</strong>
-            <span>CDMX, Estado de México, área metropolitana y consultas de todo México.</span>
+            <strong>Trato directo</strong>
+            <span>Hablas directamente conmigo por WhatsApp, teléfono o correo.</span>
           </div>
         </div>
 
@@ -149,6 +171,40 @@ export default function Home() {
           </div>
         </section>
 
+        <section id="mariana-barrera" className="section profile-section" aria-labelledby="profile-heading">
+          <div className="container profile-statement">
+            <Reveal>
+              <div className="profile-intro">
+                <div className="profile-portrait">
+                  <Image
+                    src={photos.retratoMariana}
+                    alt="Mariana Barrera, asesora de ventas de autobuses en Zapata Camiones."
+                    fill
+                    sizes="(max-width: 620px) 160px, 220px"
+                  />
+                </div>
+                <p className="profile-tenure">
+                  <strong>+15</strong>
+                  <span>años vendiendo autobuses</span>
+                </p>
+              </div>
+              <span className="profile-signature-label">{landingContent.profile.role}</span>
+              <h2 id="profile-heading">{landingContent.profile.heading}</h2>
+              <p>{landingContent.profile.body}</p>
+              <div className="signature-caption">
+                <strong>{site.personName}</strong>
+                <span>Autobuses Mercedes-Benz, {site.brandName}</span>
+              </div>
+              <div className="coverage-line" aria-label="Zonas de atención">
+                <span>CDMX</span>
+                <span>Estado de México</span>
+                <span>Área metropolitana</span>
+                <span>Consultas de toda la República Mexicana</span>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+
         <section id="carrocerias" className="section bodyworks-section" aria-labelledby="bodyworks-heading">
           <div className="container">
             <Reveal className="section-heading">
@@ -161,7 +217,7 @@ export default function Home() {
               ))}
             </ul>
             <div className="bodywork-scroller">
-              <div className="bodywork-track">
+              <div className="bodywork-track" tabIndex={0} role="region" aria-label="Galería de autobuses">
                 {bodyworks.map((bodywork, index) => (
                   <Reveal key={bodywork.name} className="bodywork-card" delay={index * 0.04}>
                     <div className="bodywork-media">
@@ -236,8 +292,8 @@ export default function Home() {
         <section id="asesoria" className="section process-section" aria-labelledby="process-heading">
           <div className="container">
             <Reveal className="section-heading compact">
-              <h2 id="process-heading">Una conversación que ordena tu decisión.</h2>
-              <p>La mejor consulta empieza con lo que necesitas mover y la forma en que trabajas.</p>
+              <h2 id="process-heading">Así es cotizar conmigo</h2>
+              <p>Empezamos por lo que necesitas mover y cómo opera tu servicio.</p>
             </Reveal>
             <div className="process-grid">
               <Reveal className="process-item" delay={0.03}>
@@ -245,61 +301,23 @@ export default function Home() {
                   <ChatCircleText size={20} weight="bold" />
                 </span>
                 <h3>Cuéntame tu operación</h3>
-                <p>Platicamos sobre el servicio que quieres atender y lo que buscas en tu autobús.</p>
+                <p>Qué servicio vas a cubrir, cuántos pasajeros mueves y en qué rutas.</p>
               </Reveal>
               <Reveal className="process-item" delay={0.08}>
                 <span className="process-icon" aria-hidden="true">
                   <Scales size={20} weight="bold" />
                 </span>
-                <h3>Revisamos alternativas</h3>
-                <p>Comparamos carrocerías y asientos para que tengas una consulta más clara.</p>
+                <h3>Comparamos opciones</h3>
+                <p>Revisamos juntos las carrocerías y los asientos que se ajustan a tu operación.</p>
               </Reveal>
               <Reveal className="process-item" delay={0.13}>
                 <span className="process-icon" aria-hidden="true">
                   <Compass size={20} weight="bold" />
                 </span>
-                <h3>Definimos tu siguiente paso</h3>
-                <p>Te llevas información concreta para continuar la conversación con tranquilidad.</p>
+                <h3>Recibes tu cotización</h3>
+                <p>Con la configuración elegida te preparo la cotización y resolvemos tus dudas.</p>
               </Reveal>
             </div>
-          </div>
-        </section>
-
-        <section className="section profile-section" aria-labelledby="profile-heading">
-          <div className="container profile-statement">
-            <Reveal>
-              <div className="profile-intro">
-                <div className="profile-portrait">
-                  <Image
-                    src={photos.retratoMariana}
-                    alt="Mariana Barrera, asesora de ventas de autobuses en Zapata Camiones."
-                    fill
-                    sizes="(max-width: 620px) 160px, 220px"
-                  />
-                </div>
-                <p className="profile-tenure">
-                  <strong>+15</strong>
-                  <span>años vendiendo autobuses</span>
-                </p>
-              </div>
-              <span className="profile-signature-label">Asesoría comercial</span>
-              <h2 id="profile-heading">Tu proyecto tiene una persona al frente.</h2>
-              <p>
-                Soy Mariana Barrera, asesora de ventas en {site.brandName}. Llevo más de quince años acompañando
-                compras de autobuses para rutas urbanas, personal, escuelas y turismo. Sé qué preguntar antes
-                de que firmes.
-              </p>
-              <div className="signature-caption">
-                <strong>{site.personName}</strong>
-                <span>Autobuses Mercedes-Benz, {site.brandName}</span>
-              </div>
-              <div className="coverage-line" aria-label="Zonas de atención">
-                <span>CDMX</span>
-                <span>Estado de México</span>
-                <span>Área metropolitana</span>
-                <span>Consultas de toda la República Mexicana</span>
-              </div>
-            </Reveal>
           </div>
         </section>
 
@@ -340,11 +358,10 @@ export default function Home() {
             </Reveal>
           </div>
         </section>
+        <a className="whatsapp-float" href={whatsappHref} target="_blank" rel="noreferrer" aria-label="Hablar con Mariana por WhatsApp">
+          <WhatsAppIcon size={28} />
+        </a>
       </main>
-
-      <a className="whatsapp-float" href={whatsappHref} target="_blank" rel="noreferrer" aria-label="Hablar con Mariana por WhatsApp">
-        <WhatsAppIcon size={28} />
-      </a>
 
       <footer className="site-footer">
         <div className="container footer-inner">
@@ -353,6 +370,7 @@ export default function Home() {
             <span>Asesoría comercial para autobuses Mercedes-Benz.</span>
           </div>
           <nav className="footer-links" aria-label="Enlaces de contacto y redes sociales">
+            <a href="#mariana-barrera">Conoce a Mariana</a>
             <a className="footer-social" href={facebookHref} target="_blank" rel="noreferrer">
               <FacebookLogo size={26} weight="fill" aria-hidden="true" /> Facebook
             </a>
@@ -363,6 +381,10 @@ export default function Home() {
             <a href={`mailto:${site.email}`}>Correo</a>
           </nav>
         </div>
+        <p className="container footer-legal">
+          © {new Date().getFullYear()} {site.personName}. Sitio personal de una asesora de ventas de {site.brandName}.
+          Mercedes-Benz y las marcas de carrocerías mencionadas pertenecen a sus respectivos titulares.
+        </p>
       </footer>
     </>
   );

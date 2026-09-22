@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 /**
  * Single source of truth for the landing page's public business information.
  *
@@ -24,8 +26,10 @@ export type Faq = {
 
 export type SiteConfig = {
   brandName: string;
+  employerUrl: string;
   siteName: string;
   personName: string;
+  jobTitle: string;
   locale: "es-MX";
   language: "es-MX";
   title: string;
@@ -36,6 +40,7 @@ export type SiteConfig = {
   email: string;
   whatsappNumber: string;
   socialImagePath: string;
+  portraitImagePath: string;
   office: {
     locality: string;
     region: string;
@@ -56,13 +61,15 @@ export type SiteConfig = {
 
 export const site: SiteConfig = {
   brandName: "Zapata Camiones",
+  employerUrl: "https://www.zapata.com.mx/",
   siteName: "Mariana Barrera | Zapata Camiones",
   personName: "Mariana Barrera",
+  jobTitle: "Asesora de ventas de autobuses en Zapata Camiones",
   locale: "es-MX",
   language: "es-MX",
-  title: "Venta de autobuses Mercedes-Benz | Mariana Barrera",
+  title: "Mariana Barrera | Venta de autobuses Mercedes-Benz",
   description:
-    "Venta de autobuses Mercedes-Benz con Mariana Barrera, de Zapata Camiones, para transporte urbano, de personal, escolar y turismo en Texcoco, CDMX y Edomex. Recibe consultas de todo México.",
+    "Mariana Barrera, asesora de Zapata Camiones en Texcoco. Cotiza autobuses Mercedes-Benz para transporte urbano, personal, escolar y turismo en CDMX y Edomex.",
   phoneDisplay: "+52 55 5007 1752",
   phoneE164: "+525550071752",
   phoneHref: "tel:+525550071752",
@@ -71,6 +78,7 @@ export const site: SiteConfig = {
   // Keep this path stable so metadata and social previews share one contract.
   // The asset pipeline writes the 1200x630 asset to this exact path.
   socialImagePath: "/images/og.jpg",
+  portraitImagePath: "/images/retrato-mariana.webp",
   office: {
     locality: "Texcoco de Mora",
     region: "Estado de México",
@@ -91,7 +99,7 @@ export const site: SiteConfig = {
     },
     {
       label: "TikTok",
-      href: "https://www.tiktok.com/@marianazapatacam1?_r=1&_t=ZS-99lQY9ak6mV",
+      href: "https://www.tiktok.com/@marianazapatacam1",
     },
   ],
   product: {
@@ -113,22 +121,22 @@ export const site: SiteConfig = {
       {
         id: "urbano",
         title: "Transporte urbano",
-        description: "Autobuses Mercedes-Benz para tu operación de transporte urbano de pasajeros.",
+        description: "Para rutas y corredores de transporte público. Revisamos carrocería, asientos y acceso según tu ruta.",
       },
       {
         id: "personal",
         title: "Transporte de personal",
-        description: "Autobuses Mercedes-Benz para trasladar personal de empresas y operaciones industriales.",
+        description: "Para mover al personal de tu empresa o planta en sus turnos. Revisamos capacidad y tipo de asiento.",
       },
       {
         id: "escolar",
         title: "Transporte escolar",
-        description: "Autobuses Mercedes-Benz para el transporte escolar de estudiantes.",
+        description: "Para escuelas y transportistas escolares. Elegimos la configuración según tus rutas y alumnos.",
       },
       {
         id: "turismo",
         title: "Turismo",
-        description: "Autobuses Mercedes-Benz para recorridos y viajes de turismo.",
+        description: "Para excursiones, recorridos y viajes largos, con opción de asientos reclinables.",
       },
     ],
   },
@@ -157,12 +165,15 @@ export const seoTargetPhrases = [
  */
 export const landingContent = {
   hero: {
-    eyebrow: "Zapata Camiones",
-    heading: "Autobuses Mercedes-Benz",
+    eyebrow: "Mariana Barrera · Zapata Camiones",
+    // Rendered as one H1: a smaller lead line above the brand line, so the
+    // heading stays within two lines at every breakpoint.
+    headingLead: "Venta de autobuses",
+    headingMain: "Mercedes-Benz",
     body:
-      "Cotiza tu autobús Mercedes-Benz con Mariana Barrera y elige una opción para tu operación de transporte.",
+      "Soy Mariana Barrera, asesora de Zapata Camiones. Te ayudo a elegir y cotizar el autobús para tu ruta, tu empresa, tu escuela o tus viajes de turismo.",
     location:
-      "Atención en CDMX, Estado de México y área metropolitana. Oficinas en Texcoco de Mora.",
+      "Oficinas en Texcoco de Mora. Atención en CDMX, Estado de México y toda la República.",
     primaryCta: "Cotizar autobús",
     secondaryCta: "Ver autobuses",
   },
@@ -175,7 +186,7 @@ export const landingContent = {
   bodies: {
     heading: "Carrocerías disponibles",
     body:
-      "Estas son las seis carrocerías Mercedes-Benz que puedes cotizar con Mariana.",
+      "Puedes cotizar conmigo cualquiera de estas seis carrocerías Mercedes-Benz. Abajo ves algunas unidades reales.",
     items: site.product.bodyStyles,
   },
   seats: {
@@ -194,6 +205,12 @@ export const landingContent = {
       "Solicita tu cotización desde CDMX, Estado de México o el área metropolitana. También se reciben consultas de toda la República Mexicana.",
     office: `${site.office.locality}, ${site.office.region}`,
   },
+  profile: {
+    heading: site.personName,
+    role: site.jobTitle,
+    body:
+      "Soy Mariana Barrera, asesora de ventas en Zapata Camiones. Llevo más de quince años acompañando compras de autobuses Mercedes-Benz para rutas urbanas, transporte de personal, escuelas y turismo. Te ayudo a comparar carrocerías y asientos según tu operación.",
+  },
   contact: {
     heading: "Cotiza tu autobús",
     body:
@@ -205,6 +222,11 @@ export const landingContent = {
 } as const;
 
 export const faqs: readonly Faq[] = [
+  {
+    question: "¿Quién es Mariana Barrera?",
+    answer:
+      "Mariana Barrera es asesora de ventas de autobuses Mercedes-Benz en Zapata Camiones, con más de quince años de experiencia. Sus oficinas están en Texcoco de Mora y atiende consultas de CDMX, Estado de México y toda la República Mexicana.",
+  },
   {
     question: "¿Qué autobuses ofrece Mariana Barrera?",
     answer:
@@ -230,6 +252,11 @@ export const faqs: readonly Faq[] = [
     answer:
       "Sí, puedes consultar con Mariana una configuración con espacio señalizado para silla de ruedas y asiento abatible.",
   },
+  {
+    question: "¿Cómo puedo cotizar un autobús con Mariana Barrera?",
+    answer:
+      `Puedes llamar o escribir por WhatsApp al ${site.phoneDisplay}, o enviar un correo a ${site.email}. Indica si necesitas transporte urbano, de personal, escolar o turismo, y qué carrocería y asientos te interesa revisar.`,
+  },
 ];
 
 export const whatsappHref = createWhatsAppHref();
@@ -241,37 +268,17 @@ export function createWhatsAppHref(message = site.defaultWhatsAppMessage): strin
 }
 
 /**
- * Production origin for every build. NEXT_PUBLIC_SITE_URL (or SITE_URL, for
- * hosts that do not expose Next.js public env vars) can override it for a
- * preview deployment; see getSiteUrl() for the validation rules.
+ * This site has one public origin. Preview builds must also point their
+ * canonical, sitemap and entity identifiers at the production domain.
  */
 export const PRODUCTION_SITE_URL = "https://marianabarrera.com";
 
-const LOCALHOST_HOSTNAMES = new Set(["localhost", "127.0.0.1", "0.0.0.0", "::1"]);
-
 /**
- * Resolve the site origin. Defaults to the production domain so every build,
- * including one with no environment configured, emits real canonical and
- * Open Graph metadata. NEXT_PUBLIC_SITE_URL / SITE_URL can override it for a
- * preview deployment; an override that is not a valid http(s) URL, or that
- * points at localhost, is ignored and the production domain is used instead,
- * so a stray local env var can never leak into public metadata.
+ * Do not infer identity from deployment URLs or environment overrides.
+ * Host-specific X-Robots-Tag rules keep workers.dev previews out of the index.
  */
 export function getSiteUrl(): string {
-  const configured = process.env.NEXT_PUBLIC_SITE_URL ?? process.env.SITE_URL;
-  if (!configured) return PRODUCTION_SITE_URL;
-
-  try {
-    const url = new URL(configured.trim());
-    if (url.protocol !== "https:" && url.protocol !== "http:") return PRODUCTION_SITE_URL;
-    if (LOCALHOST_HOSTNAMES.has(url.hostname)) return PRODUCTION_SITE_URL;
-    url.pathname = url.pathname.replace(/\/$/, "");
-    url.search = "";
-    url.hash = "";
-    return url.toString().replace(/\/$/, "");
-  } catch {
-    return PRODUCTION_SITE_URL;
-  }
+  return PRODUCTION_SITE_URL;
 }
 
 /**
@@ -311,60 +318,31 @@ export function getSitemapEntries(paths: readonly string[] = ["/"]): SitemapEntr
   return paths.map((path) => ({ url: getCanonicalUrl(path) }));
 }
 
-function getAbsoluteAssetUrl(path: string, origin = getSiteUrl()): string {
+export function getAbsoluteAssetUrl(path: string, origin = getSiteUrl()): string {
   if (/^https?:\/\//i.test(path)) return path;
   return `${origin}${normalizeAssetPath(path)}`;
 }
 
-export type SiteMetadata = {
-  title: string;
-  description: string;
-  metadataBase?: URL;
-  alternates?: {
-    canonical: string;
-  };
-  openGraph: {
-    type: "website";
-    locale: string;
-    url?: string;
-    siteName: string;
-    title: string;
-    description: string;
-    images?: {
-      url: string;
-      width: number;
-      height: number;
-      alt: string;
-    }[];
-  };
-  twitter: {
-    card: "summary_large_image";
-    title: string;
-    description: string;
-    images?: string[];
-  };
-  robots: {
-    index: boolean;
-    follow: boolean;
-  };
-};
-
 /** Metadata shape compatible with Next App Router's Metadata object. */
-export function getSiteMetadata(path = "/"): SiteMetadata {
+export function getSiteMetadata(path = "/"): Metadata {
   const origin = getSiteUrl();
   const canonical = getCanonicalUrl(path);
   const image = getAbsoluteAssetUrl(site.socialImagePath, origin);
+  const googleVerification = process.env.GOOGLE_SITE_VERIFICATION?.trim();
 
   return {
     title: site.title,
     description: site.description,
     metadataBase: new URL(origin),
     alternates: { canonical },
+    authors: [{ name: site.personName, url: `${getCanonicalUrl()}#mariana-barrera` }],
+    creator: site.personName,
+    ...(googleVerification ? { verification: { google: googleVerification } } : {}),
     openGraph: {
       type: "website",
       locale: site.locale.replace("-", "_"),
       url: canonical,
-      siteName: site.siteName,
+      siteName: site.personName,
       title: site.title,
       description: site.description,
       images: [
@@ -372,7 +350,7 @@ export function getSiteMetadata(path = "/"): SiteMetadata {
           url: image,
           width: 1200,
           height: 630,
-          alt: "Autobús Mercedes-Benz para Zapata Camiones",
+          alt: "Mariana Barrera, asesora de ventas de autobuses Mercedes-Benz en Zapata Camiones",
         },
       ],
     },
@@ -386,6 +364,7 @@ export function getSiteMetadata(path = "/"): SiteMetadata {
     robots: {
       index: true,
       follow: true,
+      "max-image-preview": "large",
     },
   };
 }
@@ -410,18 +389,23 @@ export function getStructuredData(options: StructuredDataOptions = {}): JsonLd {
   const canonical = getCanonicalUrl(path);
   const origin = getSiteUrl();
   const image = getAbsoluteAssetUrl(options.imagePath ?? site.socialImagePath, origin);
-  const personId = `${canonical}#person`;
-  const organizationId = `${canonical}#organization`;
-  const websiteId = `${canonical}#website`;
+  const homeUrl = getCanonicalUrl();
+  const personId = `${homeUrl}#person`;
+  const organizationId = `${homeUrl}#organization`;
+  const websiteId = `${homeUrl}#website`;
   const webpageId = `${canonical}#webpage`;
-  const serviceId = `${canonical}#service`;
+  const serviceId = `${homeUrl}#service`;
+  const imageId = `${canonical}#primaryimage`;
   const faqId = `${canonical}#faq`;
 
   const person: JsonLd = {
     "@type": "Person",
     "@id": personId,
     name: site.personName,
-    jobTitle: "Asesora de ventas de autobuses",
+    jobTitle: site.jobTitle,
+    url: `${homeUrl}#mariana-barrera`,
+    image: getAbsoluteAssetUrl(site.portraitImagePath),
+    description: landingContent.profile.body,
     email: site.email,
     telephone: site.phoneE164,
     worksFor: { "@id": organizationId },
@@ -432,6 +416,7 @@ export function getStructuredData(options: StructuredDataOptions = {}): JsonLd {
     "@type": "Organization",
     "@id": organizationId,
     name: site.brandName,
+    url: site.employerUrl,
     address: {
       "@type": "PostalAddress",
       addressLocality: site.office.locality,
@@ -443,10 +428,11 @@ export function getStructuredData(options: StructuredDataOptions = {}): JsonLd {
   const website: JsonLd = {
     "@type": "WebSite",
     "@id": websiteId,
-    name: site.siteName,
+    name: site.personName,
+    alternateName: site.siteName,
     inLanguage: site.language,
     publisher: { "@id": personId },
-    url: origin,
+    url: homeUrl,
   };
 
   const webpage: JsonLd = {
@@ -456,8 +442,10 @@ export function getStructuredData(options: StructuredDataOptions = {}): JsonLd {
     description: options.description ?? site.description,
     inLanguage: site.language,
     isPartOf: { "@id": websiteId },
+    author: { "@id": personId },
+    mainEntity: { "@id": serviceId },
     about: [{ "@id": personId }, { "@id": serviceId }],
-    primaryImageOfPage: image,
+    primaryImageOfPage: { "@id": imageId },
     url: canonical,
   };
 
@@ -469,6 +457,7 @@ export function getStructuredData(options: StructuredDataOptions = {}): JsonLd {
     description:
       "Venta y asesoría comercial de autobuses Mercedes-Benz, carrocerías y configuraciones de asientos.",
     provider: { "@id": personId },
+    url: `${homeUrl}#opciones`,
     brand: {
       "@type": "Brand",
       name: site.product.brand,
@@ -479,7 +468,17 @@ export function getStructuredData(options: StructuredDataOptions = {}): JsonLd {
     })),
   };
 
-  const graph: JsonLd[] = [person, organization, website, webpage, service];
+  const primaryImage: JsonLd = {
+    "@type": "ImageObject",
+    "@id": imageId,
+    url: image,
+    contentUrl: image,
+    width: 1200,
+    height: 630,
+    caption: "Autobuses Mercedes-Benz con Mariana Barrera, Zapata Camiones",
+  };
+
+  const graph: JsonLd[] = [person, organization, website, webpage, service, primaryImage];
 
   if (options.includeFaq) {
     graph.push({

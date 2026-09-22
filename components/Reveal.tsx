@@ -1,7 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { useEffect, useRef, type ReactNode } from "react";
 
 type RevealProps = {
   children: ReactNode;
@@ -10,23 +9,44 @@ type RevealProps = {
 };
 
 /**
- * Scroll-reveal wrapper: content fades and lifts into place the first time it
- * enters the viewport. This is the only automatic motion on the page, so it
- * carries the "storytelling" job of introducing each section in sequence.
- * Collapses to an instant, static mount under prefers-reduced-motion.
+ * Content is visible in the server HTML, with or without JavaScript. Enhance
+ * only sections below the fold, so animation never delays the initial paint.
  */
 export function Reveal({ children, className, delay = 0 }: RevealProps) {
-  const reduce = useReducedMotion();
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const element = ref.current;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (!element || reducedMotion.matches || !window.IntersectionObserver || !element.animate) return;
+    if (element.getBoundingClientRect().top < window.innerHeight) return;
+
+    let animation: Animation | undefined;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      observer.disconnect();
+      if (reducedMotion.matches) return;
+      animation = element.animate(
+        [{ opacity: 0, transform: "translateY(22px)" }, { opacity: 1, transform: "none" }],
+        { duration: 600, delay: delay * 1000, easing: "cubic-bezier(0.16, 1, 0.3, 1)", fill: "backwards" },
+      );
+    }, { threshold: 0.1 });
+    const stopMotion = () => {
+      if (reducedMotion.matches) animation?.cancel();
+    };
+
+    observer.observe(element);
+    reducedMotion.addEventListener("change", stopMotion);
+    return () => {
+      observer.disconnect();
+      animation?.cancel();
+      reducedMotion.removeEventListener("change", stopMotion);
+    };
+  }, [delay]);
 
   return (
-    <motion.div
-      className={className}
-      initial={reduce ? false : { opacity: 0, y: 22 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}
-    >
+    <div ref={ref} className={className}>
       {children}
-    </motion.div>
+    </div>
   );
 }

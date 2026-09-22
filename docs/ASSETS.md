@@ -15,6 +15,13 @@ Selección para la landing de Mariana Barrera / Zapata Camiones. Contrato final:
 3. De los 5 archivos `carroceria-*.webp` originales, el contenido de Beccar y Marcopolo se conservó (solo cambiaron de nombre). Ayco Cosmopolitan y Urviabus se sumaron a la galería. Ayco Zafiro (ver hallazgo abajo) se resolvió con la unidad Sigma OF como `unidad-ayco-sigma-of.webp`, sin afirmar que es "Zafiro".
 4. Se agregó `retrato-mariana.webp` para la sección de perfil (no estaba en ningún contrato anterior; ver nota de procedencia abajo).
 5. `uso-escolar.webp` y `uso-turismo.webp` se rehicieron: la primera versión usaba la misma unidad Toreto morada que `uso-urbano.webp` y `uso-personal.webp` (Marcopolo, también morado), lo que hacía ver la flota como un solo color. Ahora usan AYCO Sigma OF azul (escolar) y Beccar Urviabus MT blanco tipo coach (turismo), cada uno en un ángulo distinto al ya usado en la galería.
+6. Revisión del 22 de septiembre de 2026 (la galería se contradecía con la lista de carrocerías):
+   - Se quitaron de la galería `unidad-ayco-zafiro-gt.webp` (render de catálogo con marco blanco, fuente sin confirmar) y `unidad-ayco-sigma-of.webp` (unidad real, pero Sigma OF no es una carrocería confirmada). Ayco Zafiro queda solo como texto.
+   - Transporte escolar ahora usa la Toreto blanca de exhibición: `uso-escolar-1.webp` (tres cuartos frontal derecho, `2ae51b5f-…JPG`) y `uso-escolar-2.webp` (acceso con la puerta abierta, recorte 4:3 de `WhatsApp Image 2026-09-15 at 15.50.54 (4).jpeg`). Se eliminó `uso-escolar-3.webp`.
+   - Se eliminó `uso-personal-2.webp`, que traía franjas grises laterales dentro del archivo; la tarjeta de personal queda con dos fotos.
+   - `unidad-ayco-cosmopolitan.webp` se rehízo desde el otro costado de la misma unidad (`73d93c9b-…JPG`, recortado para sacar un perro del borde), para no repetir la foto del hero.
+   - `og.jpg` se reemplazó por una composición con logo, retrato, texto y la foto del hero. Se regenera con `scripts/make-og.sh`.
+   - Se descartó el ángulo alterno del Urviabus MT (`25478851-…JPG`): el letrero del parabrisas dice "VENDIDO" y muestra el nombre del cliente.
 
 ## Identificación de carrocerías
 
