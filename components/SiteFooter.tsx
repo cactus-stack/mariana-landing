@@ -13,16 +13,18 @@ export function SiteFooter() {
     <footer className="site-footer">
       <div className="container footer-inner">
         <div className="footer-copy">
-          <strong>{site.siteName}</strong>
+          <strong>
+            {site.personName} · {site.brandName}
+          </strong>
           <span>Asesoría comercial para autobuses Mercedes-Benz.</span>
         </div>
         <nav className="footer-links" aria-label="Enlaces de contacto y redes sociales">
           <Link href="/#mariana-barrera">Conoce a Mariana</Link>
           <a className="footer-social" href={facebookHref} target="_blank" rel="noreferrer">
-            <FacebookLogo size={26} weight="fill" aria-hidden="true" /> Facebook
+            <FacebookLogo size={20} weight="fill" aria-hidden="true" /> Facebook
           </a>
           <a className="footer-social" href={tiktokHref} target="_blank" rel="noreferrer">
-            <TiktokLogo size={26} weight="fill" aria-hidden="true" /> TikTok
+            <TiktokLogo size={20} weight="fill" aria-hidden="true" /> TikTok
           </a>
           <a href={site.phoneHref}>Llamar</a>
           <a href={`mailto:${site.email}`}>Correo</a>

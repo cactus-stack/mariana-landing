@@ -165,7 +165,6 @@ export const seoTargetPhrases = [
  */
 export const landingContent = {
   hero: {
-    eyebrow: "Mariana Barrera · Zapata Camiones",
     // Rendered as one H1: a smaller lead line above the brand line, so the
     // heading stays within two lines at every breakpoint.
     headingLead: "Venta de autobuses",
@@ -186,7 +185,7 @@ export const landingContent = {
   bodies: {
     heading: "Carrocerías disponibles",
     body:
-      "Puedes cotizar conmigo cualquiera de estas seis carrocerías Mercedes-Benz. Abajo ves algunas unidades reales.",
+      "Puedes cotizar conmigo cualquiera de estas seis carrocerías sobre chasis Mercedes-Benz. Abajo ves algunas unidades reales.",
     items: site.product.bodyStyles,
   },
   seats: {
@@ -209,7 +208,7 @@ export const landingContent = {
     heading: site.personName,
     role: site.jobTitle,
     body:
-      "Soy Mariana Barrera, asesora de ventas en Zapata Camiones. Llevo más de quince años acompañando compras de autobuses Mercedes-Benz para rutas urbanas, transporte de personal, escuelas y turismo. Te ayudo a comparar carrocerías y asientos según tu operación.",
+      "Llevo más de quince años acompañando compras de autobuses Mercedes-Benz para rutas urbanas, transporte de personal, escuelas y turismo. Te ayudo a comparar carrocerías y asientos según tu operación.",
   },
   contact: {
     heading: "Cotiza tu autobús",

@@ -2,13 +2,9 @@ import Image from "next/image";
 import {
   ArrowUpRight,
   CaretRight,
-  ChatCircleText,
-  Compass,
   EnvelopeSimple,
   MapPin,
   Phone,
-  Scales,
-  Wheelchair,
 } from "@phosphor-icons/react/dist/ssr";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import { InquiryForm } from "@/components/InquiryForm";
@@ -24,6 +20,21 @@ import {
   landingContent,
   site,
 } from "@/src/lib/site";
+
+const processSteps = [
+  {
+    title: "Cuéntame tu operación",
+    body: "Qué servicio vas a cubrir, cuántos pasajeros mueves y en qué rutas.",
+  },
+  {
+    title: "Comparamos opciones",
+    body: "Revisamos juntos las carrocerías y los asientos que se ajustan a tu operación.",
+  },
+  {
+    title: "Recibes tu cotización",
+    body: "Con la configuración elegida te preparo la cotización y resolvemos tus dudas.",
+  },
+] as const;
 
 const navLinks = [
   { href: "#opciones", label: "Servicios" },
@@ -69,7 +80,7 @@ export default function Home() {
             ))}
           </nav>
           <a className="nav-action" href={whatsappHref} target="_blank" rel="noreferrer">
-            {landingContent.hero.primaryCta} <ArrowUpRight size={16} weight="bold" aria-hidden="true" />
+            {landingContent.hero.primaryCta} <WhatsAppIcon size={16} />
           </a>
           <MobileMenu links={navLinks} ctaLabel={landingContent.hero.primaryCta} ctaHref={whatsappHref} />
         </div>
@@ -78,7 +89,6 @@ export default function Home() {
       <main id="contenido" className="page-main">
         <section id="inicio" className="container hero" aria-labelledby="hero-heading">
           <div className="hero-copy">
-            <span className="eyebrow">{landingContent.hero.eyebrow}</span>
             <h1 id="hero-heading">
               <span className="hero-h1-lead">{landingContent.hero.headingLead}</span>{" "}
               {landingContent.hero.headingMain}
@@ -88,7 +98,7 @@ export default function Home() {
               <a className="button-primary" href={whatsappHref} target="_blank" rel="noreferrer">
                 {landingContent.hero.primaryCta} <WhatsAppIcon size={18} />
               </a>
-              <a className="button-secondary" href="#opciones">
+              <a className="button-secondary" href="#carrocerias">
                 {landingContent.hero.secondaryCta} <CaretRight size={17} weight="bold" aria-hidden="true" />
               </a>
             </div>
@@ -131,8 +141,8 @@ export default function Home() {
             <span>Acompañando compras de autobuses para rutas, empresas, escuelas y turismo.</span>
           </div>
           <div className="proof-item">
-            <strong>{site.product.bodyStyles.length} carrocerías {site.product.brand}</strong>
-            <span>Ayco, Toreto, Beccar, Urviabus y Marcopolo para comparar contigo.</span>
+            <strong>{site.product.bodyStyles.length} carrocerías para elegir</strong>
+            <span>Ayco Zafiro y Cosmopolitan, Toreto, Beccar, Urviabus y Marcopolo, sobre chasis {site.product.brand}.</span>
           </div>
           <div className="proof-item">
             <strong>Trato directo</strong>
@@ -168,51 +178,17 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="mariana-barrera" className="section profile-section" aria-labelledby="profile-heading">
-          <div className="container profile-statement">
-            <Reveal>
-              <div className="profile-intro">
-                <div className="profile-portrait">
-                  <Image
-                    src={photos.retratoMariana}
-                    alt="Mariana Barrera, asesora de ventas de autobuses en Zapata Camiones."
-                    fill
-                    sizes="(max-width: 620px) 160px, 220px"
-                  />
-                </div>
-                <p className="profile-tenure">
-                  <strong>+15</strong>
-                  <span>años vendiendo autobuses</span>
-                </p>
-              </div>
-              <span className="profile-signature-label">{landingContent.profile.role}</span>
-              <h2 id="profile-heading">{landingContent.profile.heading}</h2>
-              <p>{landingContent.profile.body}</p>
-              <div className="signature-caption">
-                <strong>{site.personName}</strong>
-                <span>Autobuses Mercedes-Benz, {site.brandName}</span>
-              </div>
-              <div className="coverage-line" aria-label="Zonas de atención">
-                <span>CDMX</span>
-                <span>Estado de México</span>
-                <span>Área metropolitana</span>
-                <span>Consultas de toda la República Mexicana</span>
-              </div>
-            </Reveal>
-          </div>
-        </section>
-
         <section id="carrocerias" className="section bodyworks-section" aria-labelledby="bodyworks-heading">
           <div className="container">
             <Reveal className="section-heading">
               <h2 id="bodyworks-heading">{landingContent.bodies.heading}</h2>
               <p>{landingContent.bodies.body}</p>
+              <ul className="bodyworks-list" aria-label="Carrocerías Mercedes-Benz disponibles">
+                {site.product.bodyStyles.map((bodyStyle) => (
+                  <li key={bodyStyle}>{bodyStyle}</li>
+                ))}
+              </ul>
             </Reveal>
-            <ul className="bodyworks-pills" aria-label="Carrocerías Mercedes-Benz disponibles">
-              {site.product.bodyStyles.map((bodyStyle) => (
-                <li key={bodyStyle}>{bodyStyle}</li>
-              ))}
-            </ul>
             <div className="bodywork-scroller">
               <div className="bodywork-track" tabIndex={0} role="region" aria-label="Galería de autobuses">
                 {bodyworks.map((bodywork, index) => (
@@ -222,7 +198,7 @@ export default function Home() {
                         src={bodywork.image}
                         alt={bodywork.alt}
                         fill
-                        sizes="(max-width: 820px) 78vw, 330px"
+                        sizes="(max-width: 1100px) 78vw, 280px"
                       />
                     </div>
                     <div className="bodywork-copy">
@@ -240,6 +216,28 @@ export default function Home() {
           </div>
         </section>
 
+        <section id="asientos" className="section seating-section" aria-labelledby="seating-heading">
+          <div className="container">
+            <Reveal className="section-heading">
+              <h2 id="seating-heading">{landingContent.seats.heading}</h2>
+              <p>{landingContent.seats.body}</p>
+            </Reveal>
+            <div className="seats-grid">
+              {seats.map((seat, index) => (
+                <Reveal key={seat.name} className="seat-card" delay={index * 0.05}>
+                  <div className="seat-media">
+                    <Image src={seat.image} alt={seat.alt} fill sizes="(max-width: 820px) 100vw, 30vw" />
+                  </div>
+                  <div className="seat-copy">
+                    <h3>{seat.name}</h3>
+                    <p>{seat.description}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
         <section className="section access-section" aria-labelledby="access-heading">
           <div className="container access-layout">
             <Reveal className="access-frame">
@@ -247,13 +245,10 @@ export default function Home() {
                 src={photos.accesibilidad}
                 alt={landingContent.accessibility.alt}
                 fill
-                sizes="(max-width: 1460px) 100vw, 1400px"
+                sizes="(max-width: 820px) 100vw, 55vw"
               />
             </Reveal>
-            <Reveal className="access-panel" delay={0.12}>
-              <span className="access-badge" aria-hidden="true">
-                <Wheelchair size={22} weight="bold" />
-              </span>
+            <Reveal className="access-copy" delay={0.08}>
               <h2 id="access-heading">{landingContent.accessibility.heading}</h2>
               <p>{landingContent.accessibility.body}</p>
               <a
@@ -270,61 +265,62 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="asientos" className="section seating-section" aria-labelledby="seating-heading">
-          <div className="container">
-            <Reveal className="section-heading">
-              <h2 id="seating-heading">{landingContent.seats.heading}</h2>
-              <p>{landingContent.seats.body}</p>
+        <section id="mariana-barrera" className="section profile-section" aria-labelledby="profile-heading">
+          <div className="container profile-layout">
+            <Reveal className="profile-portrait">
+              <Image
+                src={photos.retratoMariana}
+                alt="Mariana Barrera, asesora de ventas de autobuses en Zapata Camiones."
+                fill
+                sizes="(max-width: 820px) 100vw, 440px"
+              />
             </Reveal>
-            <div className="seats-grid">
-              {seats.map((seat, index) => (
-                <Reveal key={seat.name} className="seat-card" delay={index * 0.05}>
-                  <Image src={seat.image} alt={seat.alt} fill sizes="(max-width: 820px) 100vw, 45vw" />
-                  <div className="seat-scrim">
-                    <strong>{seat.name}</strong>
-                    <span>{seat.description}</span>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
+            <Reveal className="profile-copy" delay={0.08}>
+              <p className="profile-role">{landingContent.profile.role}</p>
+              <h2 id="profile-heading">{landingContent.profile.heading}</h2>
+              <p className="profile-body">{landingContent.profile.body}</p>
+              <dl className="profile-facts">
+                <div>
+                  <dt>Experiencia</dt>
+                  <dd>
+                    <strong>+15</strong> años vendiendo autobuses
+                  </dd>
+                </div>
+                <div>
+                  <dt>Zona de atención</dt>
+                  <dd>CDMX, Estado de México y área metropolitana. Consultas de toda la República.</dd>
+                </div>
+              </dl>
+              <a className="text-link" href={whatsappHref} target="_blank" rel="noreferrer">
+                Escribirle a Mariana <ArrowUpRight size={15} weight="bold" aria-hidden="true" />
+              </a>
+            </Reveal>
           </div>
         </section>
 
         <section id="asesoria" className="section process-section" aria-labelledby="process-heading">
           <div className="container">
-            <Reveal className="section-heading compact">
+            <Reveal className="section-heading">
               <h2 id="process-heading">Así es cotizar conmigo</h2>
               <p>Empezamos por lo que necesitas mover y cómo opera tu servicio.</p>
             </Reveal>
-            <div className="process-grid">
-              <Reveal className="process-item" delay={0.03}>
-                <span className="process-icon" aria-hidden="true">
-                  <ChatCircleText size={20} weight="bold" />
-                </span>
-                <h3>Cuéntame tu operación</h3>
-                <p>Qué servicio vas a cubrir, cuántos pasajeros mueves y en qué rutas.</p>
-              </Reveal>
-              <Reveal className="process-item" delay={0.08}>
-                <span className="process-icon" aria-hidden="true">
-                  <Scales size={20} weight="bold" />
-                </span>
-                <h3>Comparamos opciones</h3>
-                <p>Revisamos juntos las carrocerías y los asientos que se ajustan a tu operación.</p>
-              </Reveal>
-              <Reveal className="process-item" delay={0.13}>
-                <span className="process-icon" aria-hidden="true">
-                  <Compass size={20} weight="bold" />
-                </span>
-                <h3>Recibes tu cotización</h3>
-                <p>Con la configuración elegida te preparo la cotización y resolvemos tus dudas.</p>
-              </Reveal>
-            </div>
+            <ol className="process-grid">
+              {processSteps.map((step, index) => (
+                <li key={step.title}>
+                  <Reveal className="process-item" delay={index * 0.05}>
+                    <span className="process-step">Paso {index + 1}</span>
+                    <h3>{step.title}</h3>
+                    <p>{step.body}</p>
+                  </Reveal>
+                </li>
+              ))}
+            </ol>
           </div>
         </section>
 
         <section id="preguntas" className="section faq-section" aria-labelledby="faq-heading">
-          <div className="container faq-container">
-            <Reveal className="section-heading">
+          <div className="container faq-layout">
+            <Reveal className="section-heading faq-heading">
               <h2 id="faq-heading">Preguntas frecuentes</h2>
               <p>Respuestas breves para comenzar tu consulta con la información esencial.</p>
             </Reveal>
@@ -339,20 +335,35 @@ export default function Home() {
             <Reveal className="contact-copy">
               <h2 id="contact-heading">{landingContent.contact.heading}</h2>
               <p>{landingContent.contact.body}</p>
-              <div className="contact-details">
-                <a className="contact-detail" href={site.phoneHref}>
-                  <Phone size={18} weight="bold" aria-hidden="true" />
-                  <span>{landingContent.contact.phoneLabel}</span>
-                </a>
-                <a className="contact-detail" href={`mailto:${site.email}`}>
-                  <EnvelopeSimple size={18} weight="bold" aria-hidden="true" />
-                  <span>{landingContent.contact.emailLabel}</span>
-                </a>
-                <span className="contact-detail">
-                  <MapPin size={18} weight="bold" aria-hidden="true" />
-                  <span>{landingContent.location.office}</span>
-                </span>
-              </div>
+              <ul className="contact-details">
+                <li>
+                  <a className="contact-detail" href={site.phoneHref}>
+                    <Phone size={18} weight="bold" aria-hidden="true" />
+                    <span>
+                      <small>Teléfono y WhatsApp</small>
+                      {landingContent.contact.phoneLabel}
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <a className="contact-detail" href={`mailto:${site.email}`}>
+                    <EnvelopeSimple size={18} weight="bold" aria-hidden="true" />
+                    <span>
+                      <small>Correo</small>
+                      {landingContent.contact.emailLabel}
+                    </span>
+                  </a>
+                </li>
+                <li>
+                  <span className="contact-detail">
+                    <MapPin size={18} weight="bold" aria-hidden="true" />
+                    <span>
+                      <small>Oficinas</small>
+                      {landingContent.location.office}
+                    </span>
+                  </span>
+                </li>
+              </ul>
             </Reveal>
             <Reveal delay={0.1}>
               <InquiryForm />
