@@ -9,18 +9,19 @@ export const whatsappBase = `https://wa.me/${site.whatsappNumber}`;
 
 // Photo policy (see docs/ASSETS.md): every unit photo is named after the
 // emblem that is legible in that photo, and the gallery only shows units of a
-// bodywork the client confirmed she sells (site.product.bodyStyles). Ayco
-// Zafiro stays text-only: the only real Zafiro GT units found were marked
-// "VENDIDO", and the catalogue render that was used instead has no confirmed
-// source. Ayco Sigma OF is a real unit but not a confirmed sales item, so it is
-// not shown either. Confirm with the client before adding either one back.
+// bodywork the client confirmed she sells (site.product.bodyStyles). The hero
+// is an Ayco Zafiro GT the client supplied herself; the unit is already sold,
+// so the "VENDIDO" sign on its windshield is blurred in the derivative, the
+// same presentation rule applied to every other sold unit on the page. Ayco
+// Sigma OF is a real unit but not a confirmed sales item, so it is not shown.
 export const photos = {
-  hero: "/images/hero-1600.webp",
-  heroSmall: "/images/hero-800.webp",
+  hero: "/images/hero-zafiro-gt-1280.webp",
+  heroSmall: "/images/hero-zafiro-gt-800.webp",
   usoUrbano1: "/images/uso-urbano-1.webp",
   usoUrbano2: "/images/uso-urbano-2.webp",
   usoUrbano3: "/images/uso-urbano-3.webp",
   usoPersonal1: "/images/uso-personal-1.webp",
+  usoPersonal2: "/images/uso-personal-2.webp",
   usoPersonal3: "/images/uso-personal-3.webp",
   usoEscolar1: "/images/uso-escolar-1.webp",
   usoEscolar2: "/images/uso-escolar-2.webp",
@@ -45,6 +46,9 @@ export const photos = {
 // "this bus, from a few sides" rather than as a carousel of different buses.
 // The first entry is the one shown at rest and is always a front or
 // three-quarter front view, which is what a buyer wants to see first.
+// Personal is the exception: it shows the same Ayco Cosmopolitan body on more
+// than one unit (the former hero is the second photo), so its alt text names
+// the bodywork instead of claiming "the same unit".
 const useMedia: Record<string, readonly { src: string; alt: string }[]> = {
   urbano: [
     {
@@ -66,8 +70,12 @@ const useMedia: Record<string, readonly { src: string; alt: string }[]> = {
       alt: "Autobús Mercedes-Benz AYCO Cosmopolitan blanco, completo, de tres cuartos frontal.",
     },
     {
+      src: photos.usoPersonal2,
+      alt: "Autobús Mercedes-Benz AYCO Cosmopolitan blanco, completo, de tres cuartos frontal con la puerta abierta, frente a la agencia Zapata Aeropuerto.",
+    },
+    {
       src: photos.usoPersonal3,
-      alt: "Interior de la misma unidad, con asientos de plástico duro gris y azul y pasillo central.",
+      alt: "Interior de un AYCO Cosmopolitan, con asientos de plástico duro gris y azul y pasillo central.",
     },
   ],
   escolar: [

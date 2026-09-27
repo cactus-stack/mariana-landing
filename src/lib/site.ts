@@ -323,16 +323,23 @@ export function getAbsoluteAssetUrl(path: string, origin = getSiteUrl()): string
   return `${origin}${normalizeAssetPath(path)}`;
 }
 
+export type PageMetadataOptions = {
+  title?: string;
+  description?: string;
+};
+
 /** Metadata shape compatible with Next App Router's Metadata object. */
-export function getSiteMetadata(path = "/"): Metadata {
+export function getSiteMetadata(path = "/", options: PageMetadataOptions = {}): Metadata {
   const origin = getSiteUrl();
   const canonical = getCanonicalUrl(path);
   const image = getAbsoluteAssetUrl(site.socialImagePath, origin);
   const googleVerification = process.env.GOOGLE_SITE_VERIFICATION?.trim();
+  const title = options.title ?? site.title;
+  const description = options.description ?? site.description;
 
   return {
-    title: site.title,
-    description: site.description,
+    title,
+    description,
     metadataBase: new URL(origin),
     alternates: { canonical },
     authors: [{ name: site.personName, url: `${getCanonicalUrl()}#mariana-barrera` }],
@@ -343,8 +350,8 @@ export function getSiteMetadata(path = "/"): Metadata {
       locale: site.locale.replace("-", "_"),
       url: canonical,
       siteName: site.personName,
-      title: site.title,
-      description: site.description,
+      title,
+      description,
       images: [
         {
           url: image,
@@ -356,8 +363,8 @@ export function getSiteMetadata(path = "/"): Metadata {
     },
     twitter: {
       card: "summary_large_image",
-      title: site.title,
-      description: site.description,
+      title,
+      description,
       images: [image],
     },
     // A public landing page should be crawlable now that a real origin exists.

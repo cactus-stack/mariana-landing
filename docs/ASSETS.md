@@ -22,6 +22,13 @@ Selección para la landing de Mariana Barrera / Zapata Camiones. Contrato final:
    - `unidad-ayco-cosmopolitan.webp` se rehízo desde el otro costado de la misma unidad (`73d93c9b-…JPG`, recortado para sacar un perro del borde), para no repetir la foto del hero.
    - `og.jpg` se reemplazó por una composición con logo, retrato, texto y la foto del hero. Se regenera con `scripts/make-og.sh`.
    - Se descartó el ángulo alterno del Urviabus MT (`25478851-…JPG`): el letrero del parabrisas dice "VENDIDO" y muestra el nombre del cliente.
+7. Revisión del 27 de septiembre de 2026 (nuevo hero):
+   - La clienta entregó `AYCO-ZAFIRO.jpg` (1280x960, AYCO Zafiro GT blanco, modelo "Z 1040", frente a Zapata Aeropuerto) para usarla como imagen principal. El original se movió a `assets-src/AYCO-ZAFIRO.jpg`; no se despliega.
+   - La unidad ya está vendida: el letrero del parabrisas dice "SM085822 VENDIDO". Se difuminó solo ese letrero con una máscara suavizada (mismo criterio de presentación que la placa del Beccar); el resto de la foto no se tocó. Las personas al fondo (entrada de Seminuevos) son diminutas y no identificables.
+   - Derivados: `hero-zafiro-gt-1280.webp` (tamaño nativo, no se escaló hacia arriba) y `hero-zafiro-gt-800.webp`. Se eliminaron `hero-1600.webp` y `hero-800.webp`.
+   - La foto anterior del hero (AYCO Cosmopolitan de tres cuartos con la puerta abierta) pasó al carrusel de Transporte de personal como `uso-personal-2.webp` (1200x900, derivada de `hero-1600.webp`). El nombre se reutiliza: el `uso-personal-2.webp` anterior, con franjas grises, se había eliminado en la revisión 6.
+   - `og.jpg` no cambió. `scripts/make-og.sh` ahora toma el autobús de `uso-personal-2.webp`; al tener la misma proporción 4:3, el recorte produce la misma composición.
+   - Ayco Zafiro deja de ser "solo texto": aparece en el hero. Sigue sin tarjeta en la galería de carrocerías.
 
 ## Identificación de carrocerías
 
@@ -33,7 +40,7 @@ Cada emblema se verificó abriendo la foto real, no se adivinó ninguno.
 | Marcopolo | Verificado | Una unidad morada larga muestra ambos wordmarks a la vez: "Torino" (costado superior, cerca del parabrisas) y "Marcopolo" (frente, bajo el parabrisas). Es un Marcopolo Torino. |
 | Urviabus | Verificado | Placa interior "Urviabus MT" sobre el tablero y el mismo texto "Urviabus MT" repetido en el costado de la unidad (carrocería Beccar, coach moderno de parabrisas panorámico). El frente también dice "BECCAR": Urviabus MT es un modelo de Beccar, no una marca aparte. |
 | Ayco Cosmopolitan | Verificado | Wordmark "AYCO" en la parrilla y script "Cosmopolitan" en el costado superior de la unidad blanca usada como hero. |
-| **Ayco Zafiro** | **Verificado tarde, con una advertencia importante** | Se encontró en el lote de ~62 archivos adicionales: wordmark **"Zafiro GT"** en el techo/costado de una minivan-autobús Mercedes-Benz de chasis tipo Sprinter (carrocería más chica, faros redondos, muy distinta a los coaches grandes AYCO/Beccar), con placa de modelo "Z 1040" visible. Se identificaron **dos unidades físicas distintas** con este wordmark (folios `VM089247` y `SM085825`), y **las dos tienen letrero "VENDIDO" pegado al parabrisas en todas las fotos disponibles**. No se revisaron el 100% de los ~62 archivos uno por uno (se hizo escaneo en cuadrícula + verificación dirigida de ~20), así que no puedo garantizar al 100% que no exista un ángulo limpio en el resto, pero no lo encontré en lo que sí revisé. **Decisión pendiente del equipo**: ¿usar una de estas fotos con una leyenda honesta ("unidad vendida, se muestra como referencia de modelo") o dejar Zafiro solo como texto sin foto? No usé ninguna en la galería por defecto, para no mostrar como disponible algo que ya se vendió. |
+| **Ayco Zafiro** | **Verificado tarde, con una advertencia importante** | Se encontró en el lote de ~62 archivos adicionales: wordmark **"Zafiro GT"** en el techo/costado de una minivan-autobús Mercedes-Benz de chasis tipo Sprinter (carrocería más chica, faros redondos, muy distinta a los coaches grandes AYCO/Beccar), con placa de modelo "Z 1040" visible. Se identificaron **dos unidades físicas distintas** con este wordmark (folios `VM089247` y `SM085825`), y **las dos tienen letrero "VENDIDO" pegado al parabrisas en todas las fotos disponibles**. No se revisaron el 100% de los ~62 archivos uno por uno (se hizo escaneo en cuadrícula + verificación dirigida de ~20), así que no puedo garantizar al 100% que no exista un ángulo limpio en el resto, pero no lo encontré en lo que sí revisé. **Decisión pendiente del equipo**: ¿usar una de estas fotos con una leyenda honesta ("unidad vendida, se muestra como referencia de modelo") o dejar Zafiro solo como texto sin foto? No usé ninguna en la galería por defecto, para no mostrar como disponible algo que ya se vendió. **Resuelto el 27 de septiembre de 2026**: la clienta eligió una tercera unidad Zafiro GT (`SM085822`) para el hero, con el letrero difuminado; la galería y el pie aclaran que las fotos son de referencia y algunas unidades ya se vendieron. |
 
 Adicional: se encontró una unidad corta de Corredor 25 con wordmark "TORETO" (unidad de corredor ya en operación, morada) y, en el lote nuevo, una unidad de exhibición **blanca e impecable** con una placa de especificaciones que literalmente dice "LO916/48 EUROV TORETO MY 2025" — confirma que "Toreto" es una designación de carrocería/versión real sobre chasís Mercedes-Benz. No es ninguna de las 5 carrocerías de venta, pero es contenido real y honesto, usado en la galería por su calidad.
 
@@ -50,8 +57,8 @@ Adicional: se encontró una unidad corta de Corredor 25 con wordmark "TORETO" (u
 Formato pedido: `archivo | qué se lee en la foto | alt honesto`
 
 ```
-hero-1600.webp | "AYCO" en parrilla + "Cosmopolitan" en costado | Autobús Mercedes-Benz AYCO Cosmopolitan blanco, completo, de tres cuartos frente a Zapata Aeropuerto, puerta abierta.
-hero-800.webp | mismo original que hero-1600 | Mismo autobús, versión ligera para pantallas pequeñas.
+hero-zafiro-gt-1280.webp | "Zafiro GT" en el costado + "Z 1040" (letrero "VENDIDO" del parabrisas difuminado) | Autobús Mercedes-Benz AYCO Zafiro GT blanco, completo, de tres cuartos frontal frente a la agencia Zapata Aeropuerto.
+hero-zafiro-gt-800.webp | mismo original que hero-zafiro-gt-1280 | Mismo autobús, versión ligera para pantallas pequeñas.
 uso-urbano.webp | "TORETO" + "CORREDOR 25" | Autobús urbano morado de Corredor 25 (carrocería Toreto), completo, de tres cuartos, puerta abierta.
 uso-personal.webp | "Torino" (Marcopolo, misma unidad que unidad-marcopolo-torino, ángulo trasero) | Autobús Marcopolo Torino morado, de tres cuartos trasero, completo, frente a Zapata Aeropuerto.
 uso-escolar.webp | "AYCO" (mismo modelo Sigma OF que unidad-ayco-sigma-of, ángulo trasero distinto) | Autobús Mercedes-Benz AYCO azul, de tres cuartos trasero, completo, patio de nave industrial.
@@ -71,7 +78,7 @@ og.jpg | "Torino" (Marcopolo, mismo original que unidad-marcopolo-torino, recort
 retrato-mariana.webp | N/A (retrato de persona) | Retrato profesional de Mariana Barrera con uniforme Mercedes-Benz/Freightliner frente a fondo de agencia. Ver nota de procedencia abajo — no lo generé yo, confirmar fuente y derechos de uso antes de publicar.
 ```
 
-Dimensiones: todos los `unidad-*`, `uso-*` y `accesibilidad` son 1200x900. Los `interior-*` son 900x1200. `hero-1600` es 1600x1200, `hero-800` es 800x600, `og.jpg` es 1200x630. `retrato-mariana.webp` es 635x704 (no estaba en el contrato de dimensiones, revisar si content.ts necesita otro tamaño).
+Dimensiones: todos los `unidad-*`, `uso-*` y `accesibilidad` son 1200x900. Los `interior-*` son 900x1200. `hero-zafiro-gt-1280` es 1280x960, `hero-zafiro-gt-800` es 800x600, `og.jpg` es 1200x630. `retrato-mariana.webp` es 635x704 (no estaba en el contrato de dimensiones, revisar si content.ts necesita otro tamaño).
 
 ## Nota sobre archivos que no generé yo
 
@@ -101,7 +108,7 @@ uso-urbano-1.webp | Toreto morada Corredor 25, folio "652400" (visible en el let
 uso-urbano-2.webp | misma unidad 652400, lateral completo | Autobús Mercedes-Benz Toreto morado, folio 652400, Corredor 25, vista lateral completa, patio con espectacular al fondo.
 uso-urbano-3.webp | misma unidad 652400, folio visible en el rótulo del techo del pasillo | Interior de autobús recién entregado, folio 652400 visible en el techo, asientos aún con plástico de fábrica, barras tomapies amarillas, pasillo completo.
 uso-personal-1.webp | AYCO "Cosmopolitan" (script visible en costado en las otras dos fotos del set), frontal recto | Autobús Mercedes-Benz AYCO blanco, frontal recto, estacionamiento de agencia con letrero "...aeropuerto" al fondo.
-uso-personal-2.webp | misma familia AYCO Cosmopolitan, trasera recta, "AYCO" + "Mercedes-Benz" en la defensa | Autobús Mercedes-Benz AYCO blanco, vista trasera completa, nave con techo industrial.
+uso-personal-2.webp | "AYCO" + "Cosmopolitan" (antes hero-1600; reemplaza al uso-personal-2 original, eliminado en la revisión 6) | Autobús Mercedes-Benz AYCO Cosmopolitan blanco, completo, de tres cuartos frontal con la puerta abierta, frente a la agencia Zapata Aeropuerto.
 uso-personal-3.webp | interior sin emblema, mismo patio (camioneta blanca y autobús morado visibles por la ventana, consistente con personal-1) | Interior de autobús con asientos de plástico duro gris y azul, barras amarillas, pasillo completo, patio visible por las ventanas.
 ```
 

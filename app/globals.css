@@ -724,6 +724,14 @@ figure {
   margin-top: clamp(1rem, 3vw, 2rem);
 }
 
+.gallery-note {
+  max-width: 70ch;
+  margin: 0.8rem 0 0;
+  color: var(--ink-faint);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
 /* Soft edge fade hints that the row scrolls horizontally, without any
    "scroll to explore" text cue. */
 .bodywork-scroller::after {
@@ -1336,6 +1344,27 @@ figure {
   line-height: 1.45;
 }
 
+.form-privacy {
+  margin: 0.2rem 0 0;
+  border-top: 1px solid var(--line);
+  color: var(--ink-faint);
+  font-size: 0.72rem;
+  line-height: 1.5;
+  padding-top: 0.9rem;
+}
+
+.form-privacy strong {
+  color: var(--ink-soft);
+  font-weight: 700;
+}
+
+.form-privacy a {
+  color: var(--accent);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 .form-error {
   display: flex;
   align-items: center;
@@ -1456,6 +1485,153 @@ figure {
   font-size: 0.74rem;
   line-height: 1.5;
   padding-top: 1.2rem;
+}
+
+.footer-legal p {
+  max-width: 120ch;
+  margin: 0 0 0.6rem;
+}
+
+.footer-legal-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.25rem;
+  margin-top: 0.4rem;
+}
+
+.footer-legal-links a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  color: var(--ink-soft);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.footer-legal-links a:hover {
+  color: var(--accent);
+}
+
+/* ---------------------------------------------------------------------- */
+/* Legal page - single reading column                                      */
+/* ---------------------------------------------------------------------- */
+
+.legal-back {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--accent);
+  font-size: 0.9rem;
+  font-weight: 750;
+}
+
+.legal-page {
+  max-width: 780px;
+  padding: clamp(2.5rem, 7vw, 5rem) 0 clamp(3.5rem, 8vw, 6rem);
+}
+
+.legal-intro h1 {
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(2.1rem, 5vw, 3.4rem);
+  font-weight: 780;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+
+.legal-intro p {
+  max-width: 60ch;
+  margin: 1.1rem 0 0;
+  color: var(--ink-soft);
+  font-size: 1.02rem;
+}
+
+.legal-intro .legal-updated {
+  color: var(--ink-faint);
+  font-size: 0.85rem;
+}
+
+.legal-toc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1.6rem;
+}
+
+.legal-toc a {
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 0.6rem 1rem;
+  transition: border-color 180ms ease, color 180ms ease;
+}
+
+.legal-toc a:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.legal-section {
+  margin-top: clamp(2.5rem, 6vw, 4rem);
+  border-top: 1px solid var(--line);
+  padding-top: clamp(2rem, 4vw, 2.8rem);
+  scroll-margin-top: 88px;
+}
+
+.legal-section h2 {
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(1.7rem, 3.4vw, 2.3rem);
+  font-weight: 780;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.legal-section h3 {
+  margin: 2rem 0 0.6rem;
+  color: var(--ink);
+  font-size: 1.05rem;
+  font-weight: 760;
+}
+
+.legal-section p,
+.legal-section li {
+  color: var(--ink-soft);
+  font-size: 0.98rem;
+  line-height: 1.7;
+}
+
+.legal-section p {
+  margin: 0 0 0.9rem;
+}
+
+.legal-section ul,
+.legal-section ol {
+  margin: 0 0 0.9rem;
+  padding-left: 1.3rem;
+}
+
+.legal-section li + li {
+  margin-top: 0.45rem;
+}
+
+.legal-section .legal-lead {
+  margin-top: 0.8rem;
+  color: var(--ink-faint);
+  font-size: 0.9rem;
+}
+
+.legal-section a {
+  color: var(--accent);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
 }
 
 /*

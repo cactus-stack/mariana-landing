@@ -13,7 +13,8 @@ Los datos de negocio y el contenido están centralizados en `src/lib/site.ts`.
   empleador, fotografía, contacto y zonas de atención. Enlace al perfil desde el pie.
 - HTML estático legible sin JavaScript. Las animaciones se añaden después de la
   carga y nunca ocultan el contenido del servidor. La portada no espera animaciones.
-- Imagen principal responsive: 800 px en móvil, 1600 px en escritorio, carga
+- Imagen principal responsive: 800 px en móvil, 1280 px en escritorio (tamaño
+  nativo de la foto que entregó la clienta, sin escalar hacia arriba), carga
   inmediata y prioridad alta. Las fotos alternativas de los carruseles se cargan
   al interactuar; el primer ángulo siempre existe en el HTML.
 - Fuente Manrope local con precarga mediante `next/font/local`, sin consultar
@@ -22,8 +23,13 @@ Los datos de negocio y el contenido están centralizados en `src/lib/site.ts`.
   HTTPS y el dominio público. `NEXT_PUBLIC_SITE_URL` y `SITE_URL` ya no modifican
   esa identidad: las copias de prueba no deben convertirse en la versión canónica.
 - `robots.txt` permite rastreo; la home permite indexación y vistas previas de
-  imágenes grandes. El sitemap incluye la home y sus fotografías reales, sin
-  prioridades artificiales ni fechas de modificación que cambien en cada build.
+  imágenes grandes. El sitemap incluye la home con sus fotografías reales y
+  `/aviso-legal/`, sin prioridades artificiales ni fechas de modificación que
+  cambien en cada build.
+- `/aviso-legal/` tiene título, descripción y canonical propios. Reúne el aviso
+  legal (sitio personal, no oficial de la agencia ni de las marcas; precios y
+  condiciones solo en la cotización formal) y el aviso de privacidad integral.
+  El formulario muestra el aviso simplificado y enlaza a `#privacidad`.
 - JSON-LD con `Person`, `Organization`, `WebSite`, `WebPage`, `Service`,
   `ImageObject` y las FAQ que realmente se pueden leer. Las referencias entre
   entidades se validan. No se inventan precios, stock, reseñas, calle ni horarios.

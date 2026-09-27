@@ -9,8 +9,9 @@ T=$(mktemp -d)
 trap 'rm -rf "$T"' EXIT
 PANEL='#16323f'
 
-# Bus photo: scale the hero to 630px tall and keep the whole unit in a 700px slice.
-magick "$R/public/images/hero-1600.webp" -resize x630 -crop 700x630+120+0 +repage "$T/bus.png"
+# Bus photo: the AYCO Cosmopolitan (former hero, same 4:3 ratio), scaled to 630px
+# tall, keeping the whole unit in a 700px slice.
+magick "$R/public/images/uso-personal-2.webp" -resize x630 -crop 700x630+120+0 +repage "$T/bus.png"
 # Fade the photo's left edge into the panel color.
 magick -size 630x220 gradient:"rgba(22,50,63,1)"-"rgba(22,50,63,0)" -rotate -90 "$T/fade.png"
 

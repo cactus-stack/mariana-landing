@@ -58,15 +58,25 @@ check("Twitter usa la misma imagen", metaValue("twitter:card") === "summary_larg
 check("Favicon publicado", links.some((link) => link.rel === "icon" && assetExists(link.href)));
 check("Ícono para iPhone publicado", links.some((link) => link.rel === "apple-touch-icon" && assetExists(link.href)));
 check("Contenido no oculto hasta hidratar JavaScript", !/style="[^"]*opacity:\s*0(?:[;"\s])/.test(markup));
-check("Hero tiene variante móvil", /<source\b[^>]*srcSet="\/images\/hero-800.webp"/i.test(markup));
+check("Hero tiene variante móvil", /<source\b[^>]*srcSet="\/images\/hero-[\w-]*800\.webp"/i.test(markup));
 const images = tags(markup, "img");
-const hero = images.find((image) => image.src === "/images/hero-1600.webp");
+const hero = images.find((image) => /^\/images\/hero-[\w-]+\.webp$/.test(image.src ?? ""));
 check("Hero se carga con prioridad", hero?.loading === "eager" && hero.fetchpriority === "high");
 check("Imágenes existen y tienen alt", images.every((image) => assetExists(image.src) && Object.hasOwn(image, "alt")));
 check("Solo portadas de carruseles en carga inicial", images.filter((image) => /\/uso-/.test(image.src)).length === 4);
 const anchors = tags(markup, "a");
 const ids = new Set(Array.from(markup.matchAll(/\bid="([^"]+)"/g), ([, id]) => id));
 check("Enlaces internos tienen destino", anchors.filter((anchor) => anchor.href?.startsWith("#")).every((anchor) => ids.has(anchor.href.slice(1))));
+// Root-relative links (footer, legal page) must point at an exported page and,
+// when they carry a hash, at an id that exists on that page.
+const pageIds = (file) => new Set(Array.from(read(file).matchAll(/\bid="([^"]+)"/g), ([, id]) => id));
+const resolvesLocally = (href) => {
+  const [pathname, hash] = href.split("#");
+  const file = pathname === "/" ? "index.html" : `${pathname.replace(/^\/+|\/+$/g, "")}/index.html`;
+  return fs.existsSync(path.join(output, file)) && (!hash || pageIds(file).has(hash));
+};
+check("Enlaces a otras páginas tienen destino", anchors.filter((anchor) => /^\/(?!\/|images\/)/.test(anchor.href ?? "")).every((anchor) => resolvesLocally(anchor.href)));
+check("Aviso legal y de privacidad enlazados desde la home", anchors.some((anchor) => anchor.href === "/aviso-legal/") && anchors.some((anchor) => anchor.href === "/aviso-legal/#privacidad"));
 check("Contacto disponible en HTML", anchors.some((anchor) => anchor.href === "tel:+525550071752") && anchors.some((anchor) => anchor.href === "mailto:nbarrera@zapata.com.mx") && anchors.some((anchor) => anchor.href?.startsWith("https://wa.me/525550071752")));
 
 const scripts = Array.from(html.matchAll(/<script\b[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi), ([, value]) => value);
@@ -102,10 +112,17 @@ const robots = read("robots.txt");
 const sitemap = read("sitemap.xml");
 check("Robots permite rastreo y anuncia sitemap", /User-Agent: \*/i.test(robots) && /Allow: \/\s/.test(robots) && !/Disallow: \/\s/.test(robots) && robots.includes(`Sitemap: ${origin}/sitemap.xml`));
 const sitemapUrls = Array.from(sitemap.matchAll(/<loc>(.*?)<\/loc>/g), ([, url]) => decode(url));
-check("Sitemap solo incluye rutas canónicas publicadas", sitemapUrls.length === 1 && sitemapUrls[0] === home);
+const legalUrl = `${origin}/aviso-legal/`;
+check("Sitemap solo incluye rutas canónicas publicadas", sitemapUrls.length === 2 && sitemapUrls.includes(home) && sitemapUrls.includes(legalUrl) && sitemapUrls.every((url) => resolvesLocally(new URL(url).pathname)));
 const sitemapImages = Array.from(sitemap.matchAll(/<image:loc>(.*?)<\/image:loc>/g), ([, url]) => decode(url));
 check("Sitemap de imágenes con assets reales", sitemapImages.length > 0 && new Set(sitemapImages).size === sitemapImages.length && sitemapImages.every((url) => isProductionUrl(url) && assetExists(url)));
 check("404 fuera del índice", /name="robots" content="[^"]*noindex/.test(read("404.html")));
+const legalHtml = read("aviso-legal/index.html");
+const legalLinks = tags(legalHtml, "link");
+const legalMeta = tags(legalHtml, "meta");
+check("Aviso legal con canonical propio", legalLinks.filter((link) => link.rel === "canonical").length === 1 && legalLinks.find((link) => link.rel === "canonical")?.href === legalUrl);
+check("Aviso legal con título y descripción propios", text(legalHtml.match(/<title>([\s\S]*?)<\/title>/i)?.[1] ?? "").startsWith("Aviso legal") && legalMeta.find((tag) => tag.name === "description")?.content !== metaValue("description"));
+check("Aviso de privacidad con sección ARCO", /\bid="privacidad"/.test(legalHtml) && /Derechos ARCO/.test(legalHtml));
 const headers = read("_headers").split("\n").filter((line) => !line.trim().startsWith("#")).join("\n");
 check("Caché inmutable para archivos con hash", /\/_next\/static\/\*\n\s+Cache-Control: public, max-age=31536000, immutable/.test(headers));
 check("Noindex de previews limitado al host", /https:\/\/:worker\.:account\.workers\.dev\/\*\n\s+X-Robots-Tag: noindex/.test(headers) && !/^\/\*\n\s+X-Robots-Tag:.*noindex/m.test(headers));

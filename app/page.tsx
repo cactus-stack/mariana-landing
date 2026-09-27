@@ -5,17 +5,16 @@ import {
   ChatCircleText,
   Compass,
   EnvelopeSimple,
-  FacebookLogo,
   MapPin,
   Phone,
   Scales,
-  TiktokLogo,
   Wheelchair,
 } from "@phosphor-icons/react/dist/ssr";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import { InquiryForm } from "@/components/InquiryForm";
 import { MobileMenu } from "@/components/MobileMenu";
 import { Reveal } from "@/components/Reveal";
+import { SiteFooter } from "@/components/SiteFooter";
 import { UseCaseMedia } from "@/components/UseCaseMedia";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { bodyworks, faqs, photos, seats, uses } from "@/src/lib/content";
@@ -40,8 +39,6 @@ const navLinks = [
 export default function Home() {
   const structuredData = getStructuredData({ includeFaq: true });
   const whatsappHref = createWhatsAppHref();
-  const facebookHref = site.socials.find((social) => social.label === "Facebook")?.href ?? site.socials[0].href;
-  const tiktokHref = site.socials.find((social) => social.label === "TikTok")?.href ?? site.socials[1].href;
 
   return (
     <>
@@ -107,7 +104,7 @@ export default function Home() {
                   <source media="(max-width: 820px)" srcSet={photos.heroSmall} />
                   <Image
                     src={photos.hero}
-                    alt="Autobús Mercedes-Benz visto de frente, unidad completa en exterior."
+                    alt="Autobús Mercedes-Benz AYCO Zafiro GT blanco, completo, de tres cuartos frontal frente a la agencia Zapata Aeropuerto."
                     fill
                     loading="eager"
                     fetchPriority="high"
@@ -236,6 +233,10 @@ export default function Home() {
                 ))}
               </div>
             </div>
+            <p className="gallery-note">
+              Fotos de referencia de unidades reales, algunas ya vendidas o entregadas. Colores, equipamiento y
+              disponibilidad se confirman en tu cotización.
+            </p>
           </div>
         </section>
 
@@ -363,29 +364,7 @@ export default function Home() {
         </a>
       </main>
 
-      <footer className="site-footer">
-        <div className="container footer-inner">
-          <div className="footer-copy">
-            <strong>{site.siteName}</strong>
-            <span>Asesoría comercial para autobuses Mercedes-Benz.</span>
-          </div>
-          <nav className="footer-links" aria-label="Enlaces de contacto y redes sociales">
-            <a href="#mariana-barrera">Conoce a Mariana</a>
-            <a className="footer-social" href={facebookHref} target="_blank" rel="noreferrer">
-              <FacebookLogo size={26} weight="fill" aria-hidden="true" /> Facebook
-            </a>
-            <a className="footer-social" href={tiktokHref} target="_blank" rel="noreferrer">
-              <TiktokLogo size={26} weight="fill" aria-hidden="true" /> TikTok
-            </a>
-            <a href={site.phoneHref}>Llamar</a>
-            <a href={`mailto:${site.email}`}>Correo</a>
-          </nav>
-        </div>
-        <p className="container footer-legal">
-          © {new Date().getFullYear()} {site.personName}. Sitio personal de una asesora de ventas de {site.brandName}.
-          Mercedes-Benz y las marcas de carrocerías mencionadas pertenecen a sus respectivos titulares.
-        </p>
-      </footer>
+      <SiteFooter />
     </>
   );
 }

@@ -1,8 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { ArrowUpRight, CheckCircle, WarningCircle } from "@phosphor-icons/react";
 import { FormEvent, useState } from "react";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
+import { legal, privacyHref } from "@/src/lib/legal";
 import { createWhatsAppHref, site } from "@/src/lib/site";
 
 type FormValues = {
@@ -122,6 +124,15 @@ export function InquiryForm() {
           Enviar por WhatsApp <WhatsAppIcon size={18} />
         </button>
       )}
+      {/* Short privacy notice required where data is collected electronically
+          (LFPDPPP art. 16-II). It points to the full notice on the legal page. */}
+      <p className="form-privacy">
+        <strong>Aviso de privacidad simplificado.</strong> {legal.controller}, con domicilio en {legal.domicile},
+        usará tu nombre, tus datos de contacto y los detalles de tu consulta para atenderla y preparar tu
+        cotización. Si no te opones, también para enviarte información de unidades y promociones; puedes negarte
+        escribiendo a {legal.contactEmail}. Este formulario no guarda tus datos. Consulta el{" "}
+        <Link href={privacyHref}>aviso de privacidad integral</Link>.
+      </p>
     </form>
   );
 }

@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
-import { getAbsoluteAssetUrl, getSitemapEntries } from "@/src/lib/site";
+import { getAbsoluteAssetUrl, getCanonicalUrl, getSitemapEntries } from "@/src/lib/site";
 import { bodyworks, photos, seats, uses } from "@/src/lib/content";
+import { legal } from "@/src/lib/legal";
 
 export const dynamic = "force-static";
 
@@ -13,9 +14,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...bodyworks.map((bodywork) => bodywork.image),
     ...seats.map((seat) => seat.image),
   ])).map((path) => getAbsoluteAssetUrl(path));
+  const home = getCanonicalUrl();
 
-  return getSitemapEntries(["/"]).map((entry) => ({
-    url: entry.url,
-    images,
-  }));
+  // Only the landing carries the photo list; the legal page has no images.
+  return getSitemapEntries(["/", legal.path]).map((entry) => (
+    entry.url === home ? { url: entry.url, images } : { url: entry.url }
+  ));
 }
